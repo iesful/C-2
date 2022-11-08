@@ -18,5 +18,12 @@ with dpg.window(label="Example Window"):
     dpg.add_slider_float(label="float")
 
 dpg.show_viewport()
-dpg.start_dearpygui()
+#dpg.start_dearpygui()
+
+while dpg.is_dearpygui_running():
+    print('running')
+    dpg.render_dearpygui_frame()
+
+print('eneded')
+
 dpg.destroy_context()
