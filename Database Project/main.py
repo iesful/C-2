@@ -8,6 +8,8 @@ dpg.create_context()
 dpg.create_viewport(title='Custom Title', width=800, height=1000)
 dpg.setup_dearpygui()
 
+#testing
+print('test')
 
 with dpg.window(label="Example Window"):
     dpg.add_text("Hello world")
