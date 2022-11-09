@@ -22,6 +22,6 @@ while dpg.is_dearpygui_running():
     #print('running')
     dpg.render_dearpygui_frame()
 
-print('ended')
+print('end')
 
 dpg.destroy_context()
