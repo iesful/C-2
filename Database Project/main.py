@@ -22,7 +22,5 @@ while dpg.is_dearpygui_running():
     #print('running')
     dpg.render_dearpygui_frame()
 
-print('end')
-print('ivan was here')
 
 dpg.destroy_context()
