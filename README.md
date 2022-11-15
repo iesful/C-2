@@ -1,2 +1,2 @@
-# C2
+# C^2
 Database project for tracking and storing CompTIA certification information for examinees
