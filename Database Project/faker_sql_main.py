@@ -1,8 +1,7 @@
 # note: you MUST have installed the faker module and sqlite3 
 # through pip for these imports to work
-import faker
+import faker, sqlite3, os, datetime
 import faker.providers.address.en_US
-import sqlite3, os, datetime
 
 #inserts new records into customer info table
 def insert_into_customer_info(name, street, city, state, signup_date, tc_id):
