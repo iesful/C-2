@@ -124,7 +124,8 @@ else:
 
 #loop to insert records into testing center info table
 for _ in range(15):
-    insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), fake.state_abbr(), fake.postalcode())
+    state = fake.state_abbr()
+    insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), state, fake.postalcode_in_state(state))
 
 #loop to insert records into customer info table
 for _ in range(10):
