@@ -1,13 +1,14 @@
 # note: you MUST have installed the faker module and sqlite3 
 # through pip for these imports to work
-import faker, sqlite3, os, datetime
+import faker
 import faker.providers.address.en_US
+import sqlite3, os, datetime
 
 #inserts new records into customer info table
-def insert_into_customer_info(name, street, city, state, signup_date, tc_id):
+def insert_into_customer_info(name, street, city, state, signup_date, tc_id, email):
     cursor.execute("\
-        INSERT INTO CUSTOMER_INFO (NAME, STREET, CITY, STATE, SIGNUP_DATE, TC_ID)\
-        VALUES (?, ?, ?, ?, ?, ?)", (name, street, city, state, signup_date, tc_id))
+        INSERT INTO CUSTOMER_INFO (NAME, STREET, CITY, STATE, SIGNUP_DATE, TC_ID, EMAIL)\
+        VALUES (?, ?, ?, ?, ?, ?, ?)", (name, street, city, state, signup_date, tc_id, email))
 
     print("Record inserted...")
 
@@ -44,6 +45,7 @@ else:
             STATE VARCHAR(2) NOT NULL, \
             SIGNUP_DATE DATE NOT NULL, \
             TC_ID INT NOT NULL,\
+            EMAIL VARCHAR(100) NOT NULL,\
             FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID) \
         );")
 
@@ -61,7 +63,8 @@ else:
             DATE_TAKEN SMALLDATE NOT NULL, \
             ATTEMPT_NUM INT NOT NULL,\
             FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID),\
-            FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID)\
+            FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID),\
+            FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
         );")
     print("TEST_TAKER_INFO TABLE CREATED...")
 
@@ -96,10 +99,11 @@ else:
         CREATE TABLE CERTIFICATION_INFO (\
             CERT_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
             CERT_NAME VARCHAR(50) NOT NULL,\
-            PRICE FLOAT(3,2) NOT NULL,\
+            EXAM_CODE VARCHAR(10) NOT NULL,\
+            PRICE INT NOT NULL,\
             TEST_DURATION INT NOT NULL,\
             PASSING_SCORE INT NOT NULL,\
-            RENEWABLE VARCHAR(15) NOT NULL,\
+            RENEWABLE BOOLEAN NOT NULL,\
             NUM_OF_QUESTIONS INT NOT NULL\
         );")
     print("CERTIFICATION_INFO TABLE CREATED...")
@@ -118,20 +122,44 @@ else:
         CREATE TABLE JOB_INFO (\
             JOB_TITLE VARCHAR(50) PRIMARY KEY NOT NULL,\
             JOB_ID INT NOT NULL,\
+            SALARY VARCHAR(10) NOT NULL,\
             FOREIGN KEY (JOB_ID) REFERENCES JOB_OPPORTUNITIES(JOB_ID)\
         );")
     print("JOB_INFO TABLE CREATED...")
 
-#loop to insert records into testing center info table
-for _ in range(15):
-    state = fake.state_abbr()
-    insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), state, fake.postalcode_in_state(state))
+
 
 #loop to insert records into customer info table
 for _ in range(10):
-    insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), fake.state_abbr(), datetime.date.today(), 100)
+    insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), 'TX', datetime.date.today(), 100, fake.ascii_free_email())
     
+#loop to insert records into testing center info table
+for _ in range(15):
+    insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), 'TX', fake.postalcode_in_state('TX'))
 
 
+#inserts records into certification_info table
+cursor.execute('\
+    INSERT INTO CERTIFICATION_INFO (CERT_NAME, EXAM_CODE, PRICE, TEST_DURATION, PASSING_SCORE, RENEWABLE, NUM_OF_QUESTIONS)\
+        VALUES ("IT Fundatmentals(ITF+)", "FC0-U61", 134.00, 60, 650, FALSE, 75),\
+        ("A+", "220-1001", 246.00, 90, 675, TRUE, 90),\
+        ("A+", "220-1002", 246.00, 90, 700, TRUE, 90),\
+        ("A+", "220-1101", 246.00, 90, 675, TRUE, 90),\
+        ("A+", "220-1102", 246.00, 90, 700, TRUE, 90),\
+        ("Network+", "N10-007", 358.00, 90, 720, TRUE, 90),\
+        ("Network+", "N10-008", 358.00, 90, 720, TRUE, 90),\
+        ("Security+", "SY0-601", 392.00, 90, 750, TRUE, 90),\
+        ("Cloud+", "CV0-002", 358.00, 90, 750, TRUE, 90),\
+        ("Cloud+", "CV0-003", 358.00, 90, 750, TRUE, 90),\
+        ("Linux+", "XK0-004", 358.00, 90, 720, TRUE, 90),\
+        ("Linux+", "XK0-005", 358.00, 90, 720, TRUE, 90),\
+        ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
+        ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
+        ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85)\
+        ;')
+print("CERTIFICATION_INFO RECORDS INSERTED...")
+
+
+#commits statements and closes connection
 cursor.connection.commit()
 cursor.close()
