@@ -135,6 +135,38 @@ else:
         );")
     print("JOB_INFO TABLE CREATED...")
 
+    #inserts records into certification_info table
+    cursor.execute('\
+        INSERT INTO CERTIFICATION_INFO (CERT_NAME, EXAM_CODE, PRICE, TEST_DURATION, PASSING_SCORE, RENEWABLE, NUM_OF_QUESTIONS)\
+            VALUES ("IT Fundatmentals(ITF+)", "FC0-U61", 134.00, 60, 650, FALSE, 75),\
+            ("A+", "220-1001", 246.00, 90, 675, TRUE, 90),\
+            ("A+", "220-1002", 246.00, 90, 700, TRUE, 90),\
+            ("A+", "220-1101", 246.00, 90, 675, TRUE, 90),\
+            ("A+", "220-1102", 246.00, 90, 700, TRUE, 90),\
+            ("Network+", "N10-007", 358.00, 90, 720, TRUE, 90),\
+            ("Network+", "N10-008", 358.00, 90, 720, TRUE, 90),\
+            ("Security+", "SY0-601", 392.00, 90, 750, TRUE, 90),\
+            ("Cloud+", "CV0-002", 358.00, 90, 750, TRUE, 90),\
+            ("Cloud+", "CV0-003", 358.00, 90, 750, TRUE, 90),\
+            ("Linux+", "XK0-004", 358.00, 90, 720, TRUE, 90),\
+            ("Linux+", "XK0-005", 358.00, 90, 720, TRUE, 90),\
+            ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
+            ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
+            ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85),\
+            ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85),\
+            ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85),\
+            ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-003", 494.00, 165, 100, TRUE, 90),\
+            ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-004", 494.00, 165, 100, TRUE, 90),\
+            ("Data+", "DA0-001", 246.00, 90, 675, TRUE, 90),\
+            ("Certified Technical Trainer (CTT+)", "TK0-201", 358.00, 90, 655, FALSE, 95),\
+            ("Certified Technical Trainer (CTT+)", "TK0-202", 382.00, 22, 36, FALSE, 0),\
+            ("Certified Technical Trainer (CTT+)", "TK0-203", 382.00, 22, 36, FALSE, 0),\
+            ("Cloud Essentials+", "CLO-002", 134.00, 60, 720, FALSE, 75),\
+            ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95),\
+            ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
+            ;')
+    print("CERTIFICATION_INFO records inserted...")
+
 
 
 #loop to insert records into customer info table
@@ -146,50 +178,17 @@ for _ in range(15):
     insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), 'TX', fake.postalcode_in_state('TX'))
 
 
-#inserts records into certification_info table
-cursor.execute('\
-    INSERT INTO CERTIFICATION_INFO (CERT_NAME, EXAM_CODE, PRICE, TEST_DURATION, PASSING_SCORE, RENEWABLE, NUM_OF_QUESTIONS)\
-        VALUES ("IT Fundatmentals(ITF+)", "FC0-U61", 134.00, 60, 650, FALSE, 75),\
-        ("A+", "220-1001", 246.00, 90, 675, TRUE, 90),\
-        ("A+", "220-1002", 246.00, 90, 700, TRUE, 90),\
-        ("A+", "220-1101", 246.00, 90, 675, TRUE, 90),\
-        ("A+", "220-1102", 246.00, 90, 700, TRUE, 90),\
-        ("Network+", "N10-007", 358.00, 90, 720, TRUE, 90),\
-        ("Network+", "N10-008", 358.00, 90, 720, TRUE, 90),\
-        ("Security+", "SY0-601", 392.00, 90, 750, TRUE, 90),\
-        ("Cloud+", "CV0-002", 358.00, 90, 750, TRUE, 90),\
-        ("Cloud+", "CV0-003", 358.00, 90, 750, TRUE, 90),\
-        ("Linux+", "XK0-004", 358.00, 90, 720, TRUE, 90),\
-        ("Linux+", "XK0-005", 358.00, 90, 720, TRUE, 90),\
-        ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
-        ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
-        ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85),\
-        ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85),\
-        ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85),\
-        ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-003", 494.00, 165, 100, TRUE, 90),\
-        ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-004", 494.00, 165, 100, TRUE, 90),\
-        ("Data+", "DA0-001", 246.00, 90, 675, TRUE, 90),\
-        ("Certified Technical Trainer (CTT+)", "TK0-201", 358.00, 90, 655, FALSE, 95),\
-        ("Certified Technical Trainer (CTT+)", "TK0-202", 382.00, 22, 36, FALSE, 0),\
-        ("Certified Technical Trainer (CTT+)", "TK0-203", 382.00, 22, 36, FALSE, 0),\
-        ("Cloud Essentials+", "CLO-002", 134.00, 60, 720, FALSE, 75),\
-        ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95),\
-        ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
-        ;')
-print("CERTIFICATION_INFO records inserted...")
-
-
 customer_ids = cursor.execute("SELECT CUSTOMER_ID FROM CUSTOMER_INFO").fetchall()
 certification_id = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
 testingcenter_id = cursor.execute("SELECT TC_ID FROM TESTING_CENTER_INFO").fetchall()
 max_time = cursor.execute("SELECT TEST_DURATION FROM CERTIFICATION_INFO").fetchall()
 
-for i in range(15):
-    cust_id = customer_ids[random.randint(0,len(customer_ids))][0]
-    cert = certification_id[random.randint(0,len(certification_id))]
+for _ in range(15):
+    cust_id = customer_ids[random.randint(0,len(customer_ids)-1)][0]
+    cert = certification_id[random.randint(0,len(certification_id)-1)]
     cert_id = cert[0]
-    tc_id = testingcenter_id[random.randint(0,len(testingcenter_id))][0]
-    actual_score = random.randint(100, 900)
+    tc_id = testingcenter_id[random.randint(0,len(testingcenter_id)-1)][0]
+    actual_score = random.randint(500, 900)
     time_used = random.randint(20, cert[4])
     date_taken = datetime.date.today()
     attempt_num = random.randint(1, 5)
