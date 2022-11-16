@@ -1,5 +1,5 @@
 # note: you MUST have installed the faker module and sqlite3 
-# through pip for these imports to work
+# through pip for these imports to work on your own machine
 import faker
 import faker.providers.address.en_US
 import sqlite3, os, datetime
@@ -130,7 +130,7 @@ else:
 
 
 #loop to insert records into customer info table
-for _ in range(10):
+for _ in range(15):
     insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), 'TX', datetime.date.today(), 100, fake.ascii_free_email())
     
 #loop to insert records into testing center info table
@@ -156,8 +156,8 @@ cursor.execute('\
         ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
         ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
         ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85),\
-        ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85 ),\
-        ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85 ),\
+        ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85),\
+        ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85),\
         ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-003", 494.00, 165, 100, TRUE, 90),\
         ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-004", 494.00, 165, 100, TRUE, 90),\
         ("Data+", "DA0-001", 246.00, 90, 675, TRUE, 90),\
@@ -168,7 +168,7 @@ cursor.execute('\
         ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95),\
         ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
         ;')
-print("CERTIFICATION_INFO RECORDS INSERTED...")
+print("CERTIFICATION_INFO records inserted...")
 
 
 #commits statements and closes connection
