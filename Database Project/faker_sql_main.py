@@ -156,6 +156,17 @@ cursor.execute('\
         ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
         ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
         ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85)\
+        ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85 )\
+        ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85 )\
+        ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-003", 494.00, 165, 100, TRUE, 90)\
+        ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-004", 494.00, 165, 100, TRUE, 90)\
+        ("Data+", "DA0-001", 246.00, 90, 675, TRUE, 90)\
+        ("Certified Technical Trainer (CTT+)", "TK0-201", 358.00, 90, 655, FALSE, 95)\
+        ("Certified Technical Trainer (CTT+)", "TK0-202", 382.00, 22, 36, FALSE, 0)\
+        ("Certified Technical Trainer (CTT+)", "TK0-203", 382.00, 22, 36, FALSE, 0)\
+        ("Cloud Essentials+", "CLO-002", 134.00, 60, 720, FALSE, 75)\
+        ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95)\
+        ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
         ;')
 print("CERTIFICATION_INFO RECORDS INSERTED...")
 
