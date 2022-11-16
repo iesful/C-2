@@ -115,15 +115,6 @@ else:
         );")
     print("CERTIFICATION_INFO TABLE CREATED...")
 
-    #creates job opportunities table
-    #cursor.execute("\
-        #CREATE TABLE JOB_OPPORTUNITIES (\
-            #JOB_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            #CERT_ID INT NOT NULL,\
-            #FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
-        #);")
-    #print("JOB_OPPORTUNITIES TABLE CREATED...")
-
     #creats job infor table
     cursor.execute("\
         CREATE TABLE JOB_INFO_OPPORTUNITIES (\
