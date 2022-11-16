@@ -138,7 +138,7 @@ else:
     #inserts records into certification_info table
     cursor.execute('\
         INSERT INTO CERTIFICATION_INFO (CERT_NAME, EXAM_CODE, PRICE, TEST_DURATION, PASSING_SCORE, RENEWABLE, NUM_OF_QUESTIONS)\
-            VALUES ("IT Fundatmentals(ITF+)", "FC0-U61", 134.00, 60, 650, FALSE, 75),\
+            VALUES ("IT Fundamentals (ITF+)", "FC0-U61", 134.00, 60, 650, FALSE, 75),\
             ("A+", "220-1001", 246.00, 90, 675, TRUE, 90),\
             ("A+", "220-1002", 246.00, 90, 700, TRUE, 90),\
             ("A+", "220-1101", 246.00, 90, 675, TRUE, 90),\
@@ -152,7 +152,7 @@ else:
             ("Linux+", "XK0-005", 358.00, 90, 720, TRUE, 90),\
             ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
             ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
-            ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85),\
+            ("Cyber Security Analyst (CySA)", "CS0-002", 392.00, 165, 750, FALSE, 85),\
             ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85),\
             ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85),\
             ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-003", 494.00, 165, 100, TRUE, 90),\
@@ -165,34 +165,35 @@ else:
             ;')
     print("CERTIFICATION_INFO records inserted...")
 
-
+    #fetches all cert ids
     certs = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
     job_statement = "\
-        INSERT INTO JOB_INFO (JOB_TITLE, SALARY, CERT_ID)\
-            VALUES ('Help Desk Technician', 43931, 'IT Fundatmentals(ITF+)'),\
+        INSERT INTO JOB_INFO_OPPORTUNITIES (JOB_TITLE, SALARY, CERT_ID)\
+            VALUES ('Help Desk Technician', 43931, IT Fundamentals (ITF+)),\
             ('Desktop Support Specialist', 53835, A+),\
             ('Network Engineer', 77040, Network+),\
             ('Systems Administrator', 64157, Security+),\
             ('Cloud Engineer', 92504, Cloud+),\
             ('Linux System Administrator', 79961, Linux+),\
             ('Data Center Technician', 58260, Server+),\
-            ('Security Analyst', 70562, Cybersecurity Analyst (CySA+)),\
+            ('Security Analyst', 70562, Cyber Security Analyst (CySA)),\
             ('Penetration Tester', 88545, Pentest+),\
             ('Security Architect', 130989, CompTIA Advanced Security Practitioner (CASP+)),\
             ('Data Analyst', 63577, Data+),\
             ('Training Consultant', 58613, Certified Technical Trainer (CTT+)),\
             ('Business Analyst', 71358, Cloud Essentials+),\
-            ('IT Project Manager', 89355, Project+)\
-            ;"
+            ('IT Project Manager', 89355, Project+);"
 
+    #loops through cert ids and replaces cert names with id
     for i in range(len(certs)):
-        job_statement.replace(certs[i][1], str(certs[i][0]))
+        if certs[i][1] in job_statement:
+            job_statement = job_statement.replace(certs[i][1], str(certs[i][0]))
 
+    #executes insert statement
     cursor.execute(job_statement)
+    print("Records inserted into JOB_INFO_OPPORTUNITIES...")
 
-
-
-
+#//now outside of else statement
 #loop to insert records into customer info table
 for _ in range(15):
     insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), 'TX', datetime.date.today(), 100, fake.ascii_free_email())
