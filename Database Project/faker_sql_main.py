@@ -51,6 +51,16 @@ else:
 
     print("CUSTOMER_INFO TABLE CREATED...")
     
+
+    def insert_into_test_taker_info(actual_score, time_used, date_taken, attempt_num):
+        cursor.execute("\
+            INSERT INTO TEST_TAKER_INFO (ACTUAL_SCORE, TIME_USED, DATE_TAKEN, ATTEMPT_NUM)\
+                VALUES (?, ?, ?, ?)", (actual_score, time_used, date_taken, attempt_num))
+
+        pass
+
+    
+
     #creates test taker info table
     cursor.execute("\
         CREATE TABLE TEST_TAKER_INFO (\
@@ -174,3 +184,4 @@ print("CERTIFICATION_INFO records inserted...")
 #commits statements and closes connection
 cursor.connection.commit()
 cursor.close()
+
