@@ -177,12 +177,11 @@ for _ in range(15):
 for _ in range(15):
     insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), 'TX', fake.postalcode_in_state('TX'))
 
-
+#functionality to generate random test taker records
 customer_ids = cursor.execute("SELECT CUSTOMER_ID FROM CUSTOMER_INFO").fetchall()
 certification_id = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
 testingcenter_id = cursor.execute("SELECT TC_ID FROM TESTING_CENTER_INFO").fetchall()
 max_time = cursor.execute("SELECT TEST_DURATION FROM CERTIFICATION_INFO").fetchall()
-
 for _ in range(15):
     cust_id = customer_ids[random.randint(0,len(customer_ids)-1)][0]
     cert = certification_id[random.randint(0,len(certification_id)-1)]
