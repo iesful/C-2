@@ -158,7 +158,6 @@ cursor.execute('\
         ("Cybersecurity Analyst (CySA+)", "CS0-002", 392.00, 165, 750, FALSE, 85)\
         ;')
 print("CERTIFICATION_INFO RECORDS INSERTED...")
-print("Tim was here")
 
 
 #commits statements and closes connection
