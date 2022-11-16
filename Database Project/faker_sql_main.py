@@ -58,7 +58,6 @@ else:
 
     print("CUSTOMER_INFO TABLE CREATED...")
     
-
     #creates test taker info table
     cursor.execute("\
         CREATE TABLE TEST_TAKER_INFO (\
@@ -117,23 +116,24 @@ else:
     print("CERTIFICATION_INFO TABLE CREATED...")
 
     #creates job opportunities table
-    cursor.execute("\
-        CREATE TABLE JOB_OPPORTUNITIES (\
-            JOB_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            CERT_ID INT NOT NULL,\
-            FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
-        );")
-    print("JOB_OPPORTUNITIES TABLE CREATED...")
+    #cursor.execute("\
+        #CREATE TABLE JOB_OPPORTUNITIES (\
+            #JOB_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
+            #CERT_ID INT NOT NULL,\
+            #FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
+        #);")
+    #print("JOB_OPPORTUNITIES TABLE CREATED...")
 
     #creats job infor table
     cursor.execute("\
-        CREATE TABLE JOB_INFO (\
-            JOB_TITLE VARCHAR(50) PRIMARY KEY NOT NULL,\
-            JOB_ID INT NOT NULL,\
+        CREATE TABLE JOB_INFO_OPPORTUNITIES (\
+            JOB_ID INTEGER PRIMARY KEY NOT NULL,\
+            JOB_TITLE VARCHAR(100) NOT NULL,\
             SALARY VARCHAR(10) NOT NULL,\
+            CERT_ID INT NOT NULL,\
             FOREIGN KEY (JOB_ID) REFERENCES JOB_OPPORTUNITIES(JOB_ID)\
         );")
-    print("JOB_INFO TABLE CREATED...")
+    print("JOB_INFO_OPPORTUNITIES TABLE CREATED...")
 
     #inserts records into certification_info table
     cursor.execute('\
@@ -159,13 +159,37 @@ else:
             ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-004", 494.00, 165, 100, TRUE, 90),\
             ("Data+", "DA0-001", 246.00, 90, 675, TRUE, 90),\
             ("Certified Technical Trainer (CTT+)", "TK0-201", 358.00, 90, 655, FALSE, 95),\
-            ("Certified Technical Trainer (CTT+)", "TK0-202", 382.00, 22, 36, FALSE, 0),\
-            ("Certified Technical Trainer (CTT+)", "TK0-203", 382.00, 22, 36, FALSE, 0),\
             ("Cloud Essentials+", "CLO-002", 134.00, 60, 720, FALSE, 75),\
             ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95),\
             ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
             ;')
     print("CERTIFICATION_INFO records inserted...")
+
+
+    certs = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
+    job_statement = "\
+        INSERT INTO JOB_INFO (JOB_TITLE, SALARY, CERT_ID)\
+            VALUES ('Help Desk Technician', 43931, 'IT Fundatmentals(ITF+)'),\
+            ('Desktop Support Specialist', 53835, A+),\
+            ('Network Engineer', 77040, Network+),\
+            ('Systems Administrator', 64157, Security+),\
+            ('Cloud Engineer', 92504, Cloud+),\
+            ('Linux System Administrator', 79961, Linux+),\
+            ('Data Center Technician', 58260, Server+),\
+            ('Security Analyst', 70562, Cybersecurity Analyst (CySA+)),\
+            ('Penetration Tester', 88545, Pentest+),\
+            ('Security Architect', 130989, CompTIA Advanced Security Practitioner (CASP+)),\
+            ('Data Analyst', 63577, Data+),\
+            ('Training Consultant', 58613, Certified Technical Trainer (CTT+)),\
+            ('Business Analyst', 71358, Cloud Essentials+),\
+            ('IT Project Manager', 89355, Project+)\
+            ;"
+
+    for i in range(len(certs)):
+        job_statement.replace(certs[i][1], str(certs[i][0]))
+
+    cursor.execute(job_statement)
+
 
 
 
