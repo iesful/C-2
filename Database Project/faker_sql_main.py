@@ -278,7 +278,7 @@ else:
 
         app_date = datetime.date.today() + datetime.timedelta(days=7.0)
 
-    insert_into_appointments(customerid, testingcenter, certificationid, app_date)
+        insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #functionality to generate random test taker records
 """ customer_ids = cursor.execute("SELECT CUSTOMER_ID FROM CUSTOMER_INFO").fetchall()
@@ -296,7 +296,6 @@ for _ in range(15):
     attempt_num = random.randint(1, 5)
 
     insert_into_test_taker_info(cust_id, cert_id, tc_id, actual_score, time_used, date_taken, attempt_num) """
-
 
 
 #commits statements and closes connection
