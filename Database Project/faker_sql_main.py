@@ -280,24 +280,6 @@ else:
 
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
-#functionality to generate random test taker records
-""" customer_ids = cursor.execute("SELECT CUSTOMER_ID FROM CUSTOMER_INFO").fetchall()
-certification_id = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
-testingcenter_id = cursor.execute("SELECT TC_ID FROM TESTING_CENTER_INFO").fetchall()
-max_time = cursor.execute("SELECT TEST_DURATION FROM CERTIFICATION_INFO").fetchall()
-for _ in range(15):
-    cust_id = customer_ids[random.randint(0,len(customer_ids)-1)][0]
-    cert = certification_id[random.randint(0,len(certification_id)-1)]
-    cert_id = cert[0]
-    tc_id = testingcenter_id[random.randint(0,len(testingcenter_id)-1)][0]
-    actual_score = random.randint(500, 900)
-    time_used = random.randint(20, cert[4])
-    date_taken = datetime.date.today()
-    attempt_num = random.randint(1, 5)
-
-    insert_into_test_taker_info(cust_id, cert_id, tc_id, actual_score, time_used, date_taken, attempt_num) """
-
-
 #commits statements and closes connection
 cursor.connection.commit()
 cursor.close()
