@@ -141,11 +141,6 @@ else:
         );")
     print("JOB_INFO_OPPORTUNITIES TABLE CREATED...")
 
-
-    #finish cert orders first and base off that
-    #cust_info = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
-    #insert_into_appointments()
-
     #creates appointments table
     cursor.execute("\
         CREATE TABLE APPOINTMENTS (\
@@ -266,7 +261,24 @@ else:
 
         insert_into_test_taker_info(customer_ids, certification_id, testingcenter, actual_score, time_used, date_taken)
 
+    #functionality to generate appointments(FIX THIS)
+    orders_data = cursor.execute("SELECT * FROM CERT_ORDERS").fetchall()
+    customer_data = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
+    for i in range(15):
+        customerid = orders_data[i][1]
+        certificationid = orders_data[i][2]
 
+        y = 0
+        while True:
+            if customer_data[y][0] == customerid:
+                testingcenter = customer_data[y][6]
+                break
+            else:
+                y += 1
+
+        app_date = datetime.date.today() + datetime.timedelta(days=7.0)
+
+    insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #functionality to generate random test taker records
 """ customer_ids = cursor.execute("SELECT CUSTOMER_ID FROM CUSTOMER_INFO").fetchall()
