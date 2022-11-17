@@ -20,10 +20,10 @@ def insert_into_testing_center_info(name, street, city, state, postal):
     print("Record inserted...")
 
 #inserts new records into test taker info table
-def insert_into_test_taker_info(customer_id, cert_id, tc_id, actual_score, time_used, date_taken, attempt_num):
+def insert_into_test_taker_info(customer_id, cert_id, tc_id, actual_score, time_used, date_taken):
     cursor.execute("\
-        INSERT INTO TEST_TAKER_INFO (CUSTOMER_ID, CERT_ID, TC_ID, ACTUAL_SCORE, TIME_USED, DATE_TAKEN, ATTEMPT_NUM)\
-            VALUES (?, ?, ?, ?, ?, ?, ?)", (customer_id, cert_id, tc_id, actual_score, time_used, date_taken, attempt_num))
+        INSERT INTO TEST_TAKER_INFO (CUSTOMER_ID, CERT_ID, TC_ID, ACTUAL_SCORE, TIME_USED, DATE_TAKEN)\
+            VALUES (?, ?, ?, ?, ?, ?)", (customer_id, cert_id, tc_id, actual_score, time_used, date_taken))
 
     print("Inserting into Test_Taker_Info...")
 
@@ -37,9 +37,11 @@ def insert_into_appointments(customer_id, tc_id, cert_id, app_date):
     
 #inserts into cert_orders table
 def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
-        cursor.execute("\
-            INSERT INTO CERT_ORDERS (CUSTOMER_ID, CERT_ID, ORDER_DATE, ORDER_COST)\
-                VALUES (?, ?, ?, ?)", (customer_id, cert_id, order_date, order_cost))
+    cursor.execute("\
+        INSERT INTO CERT_ORDERS (CUSTOMER_ID, CERT_ID, ORDER_DATE, ORDER_COST)\
+            VALUES (?, ?, ?, ?)", (customer_id, cert_id, order_date, order_cost))
+
+    print("Inserting into CERT_ORDERS...")
 
 
 #faker obj, db name, and db validation
@@ -83,7 +85,6 @@ else:
             ACTUAL_SCORE INT NOT NULL,\
             TIME_USED VARCHAR(20) NOT NULL,\
             DATE_TAKEN SMALLDATE NOT NULL, \
-            ATTEMPT_NUM INT NOT NULL,\
             FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID),\
             FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID),\
             FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
@@ -102,13 +103,6 @@ else:
             HOURS VARCHAR(50) NOT NULL\
         );")
     print("TESTING_CENTER_INFO TABLE CREATED...")
-
-    
-
-
-
-  
-
 
     #creates cert orders table
     cursor.execute("\
@@ -224,40 +218,53 @@ else:
     cursor.execute(job_statement)
     print("Records inserted into JOB_INFO_OPPORTUNITIES...")
 
-#//now outside of else statement
-#loop to insert records into customer info table
-for _ in range(15):
-    insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), 'TX', datetime.date.today(), random.randint(1,15), fake.ascii_free_email())
-    
-#loop to insert records into testing center info table
-for _ in range(15):
-    insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), 'TX', fake.postalcode_in_state('TX'))
+    #loop to insert records into customer info table
+    for _ in range(15):
+        insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), 'TX', datetime.date.today(), random.randint(1,15), fake.ascii_free_email())
+        
+    #loop to insert records into testing center info table
+    for _ in range(15):
+        insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), 'TX', fake.postalcode_in_state('TX'))
 
-#functionality to generate random orders
-customer = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
-certification = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
-for _ in range(15):
-    ids = customer[random.randint(0,len(customer)-1)][0]
-    cert = certification[random.randint(0,len(certification)-1)]
-    cert_ids = cert[0]
-    cost = cert[3]
+    #functionality to generate random orders
+    customer = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
+    certification = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
+    for _ in range(15):
+        ids = customer[random.randint(0,len(customer)-1)][0]
+        cert = certification[random.randint(0,len(certification)-1)]
+        cert_ids = cert[0]
+        cost = cert[3]
 
-    insert_into_cert_orders(ids, cert_ids, datetime.date.today(), cost)
+        insert_into_cert_orders(ids, cert_ids, datetime.date.today(), cost)
 
-#Finish
-data = cursor.execute("SELECT * FROM CERT_ORDERS").fetchall()
-customer_data = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
-for i in range(15):
-    customer_ids = data[i][1]
-    certification_id = data[i][2]
+    #new functionality to generate random test taker records
+    data = cursor.execute("SELECT * FROM CERT_ORDERS").fetchall()
+    customer_data = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
+    for i in range(15):
+        customer_ids = data[i][1]
+        certification_id = data[i][2]
 
-    y = 0
-    while True:
-        if customer_data[y][0] == customer_ids:
-            testingcenter = customer_data[y][6]
-            break
+        y = 0
+        while True:
+            if customer_data[y][0] == customer_ids:
+                testingcenter = customer_data[y][6]
+                break
+            else:
+                y += 1
+
+        if certification_id in [18, 19]:
+            actual_score = random.randint(0,100)
         else:
-            y += 1
+            actual_score = random.randint(400, 900)
+
+        if certification_id in [15, 16, 17, 18, 19]:
+            time_used = random.randint(20, 165)
+        else:
+            time_used = random.randint(20,90)
+
+        date_taken = datetime.date.today() + datetime.timedelta(days=7.0)
+
+        insert_into_test_taker_info(customer_ids, certification_id, testingcenter, actual_score, time_used, date_taken)
 
 
 
