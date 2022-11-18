@@ -11,8 +11,9 @@ C^2 Database Menu\n\n\
 4.Update a table\n\
 5.Insert into a table\n\
 6.Delete from a table\n\
-7.Search for a record in a table"
-)
+7.Search for a record in a table\n\
+8.View reports\n\
+9.Quit")
 #takes the user's choice from the above options
 ActionChoice = input("Please type the number infront of the action you would like to take...}")
 
