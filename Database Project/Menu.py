@@ -14,28 +14,39 @@ C^2 Database Menu\n\n\
 7.Search for a record in a table\n\
 8.View reports\n\
 9.Quit")
-#takes the user's choice from the above options
-ActionChoice = input("Please type the number infront of the action you would like to take...}")
 
-if ActionChoice == 1:
-    cancelChoice = input("You have selected to create a new table would you like to continue? Y/N")
-    if cancelChoice.upper == "Y":
-        #the name you want to give the table 
-        userTableName = input("Please enter the name you would like to give the new table...")
-        #the fields you want to include in the table
-        newTableFieldName = input("Please input the names of the fields you want in your table separated by commas...")
-        #sql statment to add the table to the database goes here
-    else:
-        ActionChoice = input("Please type the number infront of the action you would like to take...}")
+i = "N"
+while i != "Y":
+    #takes the user's choice from the above options
+    ActionChoice = input("Please type the number infront of the action you would like to take...}")
+
+    if ActionChoice == 1:
+        cancelChoice = input("You have selected to create a new table would you like to continue? Y/N")
+        if cancelChoice.upper == "Y":
+            #the name you want to give the table 
+            userTableName = input("Please enter the name you would like to give the new table...")
+            #the fields you want to include in the table
+            newTableFieldName = input("Please input the names of the fields you want in your table separated by commas...")
+            #sql statment to add the table to the database goes here
+        else:
+            ActionChoice = input("Please type the number infront of the action you would like to take...}")
 
 
-if ActionChoice == 2:
-    cancelChoice = input("You have selected to drop a table would you like to continue? Y/N")
-    if cancelChoice.upper == "Y":
-        #the name of the table you would like to drop from the database
-        userTableDropChoice = input("Please enter the name of the table you would like to drop...")
-        #sql to drop the table from the database goes here
-    else:
-        ActionChoice = input("Please type the number infront of the action you would like to take...}")
+    if ActionChoice == 2:
+        cancelChoice = input("You have selected to drop a table would you like to continue? Y/N")
+        if cancelChoice.upper == "Y":
+            #the name of the table you would like to drop from the database
+            userTableDropChoice = input("Please enter the name of the table you would like to drop...")
+            #sql to drop the table from the database goes here
+        else:
+            ActionChoice = input("Please type the number infront of the action you would like to take...}")
+    if ActionChoice == 9:
+        cancelChoice = input("You have selected to exit the program would you like to continue? Y/N")
+        if cancelChoice.upper == "Y":
+            print("Goodbye")
+            i = "Y"
+        else:
+            ActionChoice = input("Please type the number infront of the action you would like to take...}")
 
-#continue the if statements until all menu options are covered
+
+    #continue the if statements until all menu options are covered
