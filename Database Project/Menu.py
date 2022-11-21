@@ -1,19 +1,37 @@
-#text based menu to connect and interact with our database
-import sqlite3
-connection = sqlite3.connect("C^2.db")
-cursor = connection.cursor
+#when the menu is finished we should move everything into the faker_sql_main.py
+#file so it can run along side all the other code in one go --Ivan
 
-print ("\
+#text based menu to connect and interact with our database
+""" import sqlite3
+connection = sqlite3.connect("C^2.db")
+cursor = connection.cursor """
+
+menu = "\
+|   {:^24} |\n\n\
+|1. {:^24} |\n\
+|2. {:^24} |\n\
+|3. {:^24} |\n\
+|4. {:^24} |\n\
+|5. {:^24} |\n\
+|6. {:^24} |\n\
+|7. {:^24} |\n\
+|8. {:^24} |\n\
+|9. {:^24} |\n"
+print(menu.format('C^2 Database Menu', 'Create a new Table', 'Drop a table',
+'Alter a table', 'Update records', 'Insert records', 'Delete from a table',
+'Search for records', 'View reports', 'Quit'))
+
+""" print ("\
 | C^2 Database Menu |\n\n\
-1. | Create a new Table |\n\
-2. | Drop a table |\n\
-3. | Alter a table |\n\
-4. | Update a table |\n\
-5. | Insert into a table |\n\
-6. | Delete from a table |\n\
-7. | Search for a record in a table |\n\
-8. | View reports |\n\
-9. | Quit |\n")
+| 1. Create a new Table |\n\
+| 2. Drop a table |\n\
+| 3. Alter a table |\n\
+| 4. Update a table |\n\
+| 5. Insert into a table |\n\
+| 6. Delete from a table |\n\
+| 7. Search for a record in a table |\n\
+| 8. View reports |\n\
+| 9. Quit |\n") """
 
 #takes the user's choice from the above options
 action_choice = input("Please type the number infront of the action you would like to take: ")
