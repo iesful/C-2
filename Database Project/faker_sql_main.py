@@ -9,7 +9,7 @@ def insert_into_customer_info(name, street, city, state, signup_date, tc_id, ema
         INSERT INTO CUSTOMER_INFO (NAME, STREET, CITY, STATE, SIGNUP_DATE, TC_ID, EMAIL)\
         VALUES (?, ?, ?, ?, ?, ?, ?)", (name, street, city, state, signup_date, tc_id, email))
 
-    print("Record inserted...")
+    print("Record inserted into Customer_Info...")
 
 #inserts new records into testing center info table
 def insert_into_testing_center_info(name, street, city, state, postal):
@@ -17,7 +17,7 @@ def insert_into_testing_center_info(name, street, city, state, postal):
         INSERT INTO TESTING_CENTER_INFO (TC_NAME, STREET, CITY, STATE, ZIP, HOURS)\
         VALUES (?, ?, ?, ?, ?, 'M - F, 9AM - 5PM')", (name, street, city, state, postal))
 
-    print("Record inserted...")
+    print("Record inserted into Testing_Center_Info...")
 
 #inserts new records into test taker info table
 def insert_into_test_taker_info(customer_id, cert_id, tc_id, actual_score, time_used, date_taken):
@@ -25,7 +25,7 @@ def insert_into_test_taker_info(customer_id, cert_id, tc_id, actual_score, time_
         INSERT INTO TEST_TAKER_INFO (CUSTOMER_ID, CERT_ID, TC_ID, ACTUAL_SCORE, TIME_USED, DATE_TAKEN)\
             VALUES (?, ?, ?, ?, ?, ?)", (customer_id, cert_id, tc_id, actual_score, time_used, date_taken))
 
-    print("Inserting into Test_Taker_Info...")
+    print("Record inserted Test_Taker_Info...")
 
 #inserts records into appointments table
 def insert_into_appointments(customer_id, tc_id, cert_id, app_date):
@@ -33,7 +33,7 @@ def insert_into_appointments(customer_id, tc_id, cert_id, app_date):
         INSERT INTO APPOINTMENTS (CUSTOMER_ID, TC_ID, CERT_ID, APP_DATE)\
             VALUES (?, ?, ?, ?)", (customer_id, tc_id, cert_id, app_date))
 
-    print("Record inserted...")
+    print("Record inserted into Appointments...")
     
 #inserts into cert_orders table
 def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
@@ -41,7 +41,7 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
         INSERT INTO CERT_ORDERS (CUSTOMER_ID, CERT_ID, ORDER_DATE, ORDER_COST)\
             VALUES (?, ?, ?, ?)", (customer_id, cert_id, order_date, order_cost))
 
-    print("Inserting into CERT_ORDERS...")
+    print("Record inserted into Cert_Orders...")
 
 
 #faker obj, db name, and db validation
@@ -183,7 +183,7 @@ else:
             ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95),\
             ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
             ;')
-    print("CERTIFICATION_INFO records inserted...")
+    print("CERTIFICATION_INFO records created...")
 
     #fetches all cert ids
     certs = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
@@ -211,7 +211,7 @@ else:
 
     #executes insert statement
     cursor.execute(job_statement)
-    print("Records inserted into JOB_INFO_OPPORTUNITIES...")
+    print("JOB_INFO_OPPORTUNITIES records created...")
 
     #loop to insert records into customer info table
     for _ in range(15):
