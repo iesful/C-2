@@ -90,7 +90,7 @@ while leave != "Y":
         prompt = input("You have selected to exit the program would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             leave = prompt
-            print("\n| Exiting the C^2 Database Menu |")
+            print("\n| {:^24} |".format('Exiting the C^2 Database Menu'))
         else:
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
