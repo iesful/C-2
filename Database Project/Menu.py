@@ -7,7 +7,7 @@ connection = sqlite3.connect("C^2.db")
 cursor = connection.cursor """
 
 menu = "\
-|   {:^24} |\n\n\
+    {:^24}  \n\n\
 |1. {:^24} |\n\
 |2. {:^24} |\n\
 |3. {:^24} |\n\
