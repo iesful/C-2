@@ -61,6 +61,30 @@ while leave != "Y":
         else:
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
+    #option 3 logic
+    if action_choice == '3':
+        pass
+
+    #option 4 logic
+    if action_choice == '4':
+        pass
+
+    #option 5 logic
+    if action_choice == '5':
+        pass
+
+    #option 6 logic
+    if action_choice == '6':
+        pass
+
+    #option 7 logic
+    if action_choice == '7':
+        pass
+
+    #option 8 logic
+    if action_choice == '8':
+        pass
+
     #option 9 logic
     if action_choice == '9':
         prompt = input("You have selected to exit the program would you like to continue (Y/N)? ").upper()
