@@ -382,7 +382,24 @@ while leave != "Y":
 
 
             if report_choice == '2':
-                pass
+                data = cursor.execute("SELECT CUSTOMER_ID, TIME_USED FROM TEST_TAKER_INFO").fetchall()
+                to_sort = []
+                for i in range(len(data)):
+                    to_sort.append([data[i][0], int(data[i][1])])
+
+                to_sort.sort(key=lambda x: int(x[1]))
+
+                customer_data = cursor.execute("SELECT CUSTOMER_ID, NAME FROM CUSTOMER_INFO").fetchall()
+                for p in range(len(to_sort)):
+                    for k in range(len(customer_data)):
+                        if to_sort[p][0] == customer_data[k][0]:
+                            to_sort[p][0] = customer_data[k][1]
+
+                print(f"\nQuickest Examinee: {to_sort[0][0]} with a time of {to_sort[0][1]} minutes!")
+
+                leave_report = 'Y'
+                action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
+
 
             if report_choice == '3':
                 pass
