@@ -43,6 +43,18 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
 
     print("Record inserted into Cert_Orders...")
 
+#prints options menu
+def menu_print():
+    menu = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n"
+
+    print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
+    'Delete a record', 'View reports', 'Quit'))
 
 #faker obj, db name, and db validation
 fake = faker.Faker('en_US')
@@ -288,14 +300,9 @@ menu = "\
 |2. {:^24} |\n\
 |3. {:^24} |\n\
 |4. {:^24} |\n\
-|5. {:^24} |\n\
-|6. {:^24} |\n\
-|7. {:^24} |\n\
-|8. {:^24} |\n\
-|9. {:^24} |\n"
-print(menu.format('C^2 Database Menu', 'Create a new Table', 'Drop a table',
-'Alter a table', 'Update records', 'Insert records', 'Delete from a table',
-'Search for records', 'View reports', 'Quit'))
+|5. {:^24} |\n"
+print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
+    'Delete a record', 'View reports', 'Quit'))
 
 #takes the user's choice from the above options
 action_choice = input("Please type the number infront of the action you would like to take: ")
@@ -325,28 +332,8 @@ while leave != "Y":
         else:
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
-    #option 3 logic
-    if action_choice == '3':
-        pass
-
     #option 4 logic
     if action_choice == '4':
-        pass
-
-    #option 5 logic
-    if action_choice == '5':
-        pass
-
-    #option 6 logic
-    if action_choice == '6':
-        pass
-
-    #option 7 logic
-    if action_choice == '7':
-        pass
-
-    #option 8 logic
-    if action_choice == '8':
         report_menu = "\n\
             {:^32}  \n\
         |1. {:^32} |\n\
@@ -375,9 +362,10 @@ while leave != "Y":
                         top.clear()
                         top.append(data[i])
 
-                print(f"\nMost Expensive Certification: {top[0][0]}, Price: ${top[0][1]}")
+                print(f"\nMost Expensive Certification: {top[0][0]}, Price: ${top[0][1]}\n")
 
                 leave_report = 'Y'
+                menu_print()
                 action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
 
@@ -395,9 +383,10 @@ while leave != "Y":
                         if to_sort[p][0] == customer_data[k][0]:
                             to_sort[p][0] = customer_data[k][1]
 
-                print(f"\nQuickest Examinee: {to_sort[0][0]} with a time of {to_sort[0][1]} minutes!")
+                print(f"\nQuickest Examinee: {to_sort[0][0]} with a time of {to_sort[0][1]} minutes!\n")
 
                 leave_report = 'Y'
+                menu_print()
                 action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
 
@@ -429,14 +418,15 @@ while leave != "Y":
                 prompt = input("You have selected to exit the report menu would you like to continue (Y/N)? ").upper()
                 if prompt == 'Y':
                     leave_report = prompt
+                    menu_print()
                     action_choice = input("Please type the number infront of the action you would like to take: ")
                 else:
                     report_choice = input("Please select a report to generate: ")
 
         
 
-    #option 9 logic
-    if action_choice == '9':
+    #option 5 logic
+    if action_choice == '5':
         prompt = input("You have selected to exit the program would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             leave = prompt
