@@ -294,17 +294,20 @@ else:
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #options menu
-menu = "\
-    {:^24}  \n\n\
-|1. {:^24} |\n\
-|2. {:^24} |\n\
-|3. {:^24} |\n\
-|4. {:^24} |\n\
-|5. {:^24} |\n"
-print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
+def menu_print():
+    menu = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n"
+
+    print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
     'Delete a record', 'View reports', 'Quit'))
 
-#takes the user's choice from the above options
+menu_print()
+#takes the user's choice from the menu options
 action_choice = input("Please type the number infront of the action you would like to take: ")
 
 leave = 'N'
@@ -312,29 +315,78 @@ while leave != "Y":
 
     #option 1 logic
     if action_choice == '1':
-        prompt = input("You have selected to create a new table would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
-            #the name you want to give the table 
-            userTableName = input("Please enter the name you would like to give the new table: ")
-            #the fields you want to include in the table
-            newTableFieldName = input("Please input the names of the fields you want in your table separated by commas: ")
-            #sql statment to add the table to the database goes here
+        #list of tables available to add a record too
+            tables = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
+
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            table_selection = input("Please enter the number of the table you would like to add a record to:")
+            if table_selection == "1":
+                entered_name = input("Please input the name of the customer(First Last):")
+                entered_street = input("Please enter the customer's street address:")
+                entered_city = input("Please input the customer's city:")
+                entered_state = input("Please input the customer's state abbreviation (TX):").upper
+                entered_date = datetime.date.today()
+                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
+                entered_email = input("Please input the customer's email address:")
+                insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
+                print("Record added successfully...")
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+
+            if table_selection == "2":
+                pass
+            if table_selection == "3":
+                pass
+            if table_selection == "4":
+                pass
+            if table_selection == "5":
+                pass
+            if table_selection == "6":
+                pass
+            if table_selection == "7":
+                pass
         else:
+            menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
+        
 
     #option 2 logic
     if action_choice == '2':
-        prompt = input("You have selected to drop a table would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
-            #the name of the table you would like to drop from the database
-            userTableDropChoice = input("Please enter the name of the table you would like to drop: ")
-            #sql to drop the table from the database goes here
+            pass
+
         else:
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
+
+    #option 3 logic
+    if action_choice == '3':
+        prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
+        if prompt == "Y":
+            pass
+
+        else:
+            menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
     #option 4 logic
     if action_choice == '4':
-        report_menu = "\n\
+        prompt = input("You have selected to view reports. Would you like to continue (Y/N)? ").upper()
+        if prompt == "Y":
+                    report_menu = "\n\
             {:^32}  \n\
         |1. {:^32} |\n\
         |2. {:^32} |\n\
@@ -422,6 +474,10 @@ while leave != "Y":
                     action_choice = input("Please type the number infront of the action you would like to take: ")
                 else:
                     report_choice = input("Please select a report to generate: ")
+        
+        else:
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
 
         
 
@@ -432,7 +488,15 @@ while leave != "Y":
             leave = prompt
             print("\n| {:^24} |".format('Exiting the C^2 Database Menu'))
         else:
+            menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
+
+    else:
+        print ("Selection invalid. Please enter an appropriate selection...")
+        menu_print()
+        action_choice = input("Please type the number infront of the action you would like to take: ")
+        
+
 
 
 #commits statements and closes connection
