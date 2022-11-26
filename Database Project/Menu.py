@@ -31,18 +31,32 @@ while leave != "Y":
         if prompt == "Y":
         #list of tables available to add a record too
             tables = "\
-                {:^24}  \n\n\
-            |1. {:^24} |\n\
-            |2. {:^24} |\n\
-            |3. {:^24} |\n\
-            |4. {:^24} |\n\
-            |5. {:^24} |\n\
-            |6. {:^24} |\n\
-            |7. {:^24} |\n"
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO', 'TEST_TAKER_INFO',
             'TESTING_CENTER_INFO', 'CERT_ORDERS', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
-            
+            table_selection = input("Please enter the number of the table you would like to add a record to:")
+            if table_selection == "1":
+                pass
+            if table_selection == "2":
+                pass
+            if table_selection == "3":
+                pass
+            if table_selection == "4":
+                pass
+            if table_selection == "5":
+                pass
+            if table_selection == "6":
+                pass
+            if table_selection == "7":
+                pass
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
@@ -87,4 +101,11 @@ while leave != "Y":
             leave = prompt
             print("\n| {:^24} |".format('Exiting the C^2 Database Menu'))
         else:
+            menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
+
+    else:
+        print ("Selection invalid. Please enter an appropriate selection...")
+        menu_print()
+        action_choice = input("Please type the number infront of the action you would like to take: ")
+        
