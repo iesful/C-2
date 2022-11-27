@@ -577,12 +577,33 @@ while leave != "Y":
                     print("Customer Sign Up Date = ", field[5])
                     print("Customer Prefered Testing Center = ", field[6])
                     print("Customer Email = ", field[7], "\n")
-                    
 
             if table_selection == "2":
-                pass
+                TC_search_query = "SELECT * FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
+                user_tc_id = input("Please input the Testing Center ID of the center you need information for:")
+                cursor.execute(TC_search_query, (user_tc_id,))
+                record = cursor.fetchall()
+                for field in record:
+                    print("Testing Center ID = ", field[0] )
+                    print("Testing Center Name = ", field[1])
+                    print("Testing Center Address = ", field[2])
+                    print("Testing Center City  = ", field[3])
+                    print("Testing Center State = ", field[4])
+                    print("Testing Center Zip = ", field[5])
+                    print("Testing Center Hours of Operation = ", field[6], "\n")
+
             if table_selection == "3":
-                pass
+                order_search_query = "SELECT * FROM CERT_ORDERS WHERE ORDER_ID = ?"
+                user_order_id = input("Please input the order ID of the order you need information for:")
+                cursor.execute(order_search_query, (user_order_id,))
+                record = cursor.fetchall()
+                for field in record:
+                    print("Order ID = ", field[0] )
+                    print("Ordering Customer ID = ", field[1])
+                    print("Certification ID of Certification Ordered = ", field[2])
+                    print("Order Date = ", field[3])
+                    print("Order Cost = ", field[4], "\n")
+
             if table_selection == "4":
                 pass
             if table_selection == "5":
