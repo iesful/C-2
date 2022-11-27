@@ -563,6 +563,7 @@ while leave != "Y":
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
             table_selection = input("Please enter the number of the table containing the record you want to search for:")
+            #if the user searches for a record in the customer_info table
             if table_selection == "1":
                 cust_search_query = "SELECT * FROM CUSTOMER_INFO WHERE CUSTOMER_ID = ?"
                 cust_ID = input("Please input the customer ID of the customer you need information for:")
@@ -577,7 +578,7 @@ while leave != "Y":
                     print("Customer Sign Up Date = ", field[5])
                     print("Customer Prefered Testing Center = ", field[6])
                     print("Customer Email = ", field[7], "\n")
-
+            #if the user searches for a record in the testing_center_info table
             if table_selection == "2":
                 TC_search_query = "SELECT * FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
                 user_tc_id = input("Please input the Testing Center ID of the center you need information for:")
@@ -591,7 +592,7 @@ while leave != "Y":
                     print("Testing Center State = ", field[4])
                     print("Testing Center Zip = ", field[5])
                     print("Testing Center Hours of Operation = ", field[6], "\n")
-
+            #if the user searches for a record in the cert_orders table
             if table_selection == "3":
                 order_search_query = "SELECT * FROM CERT_ORDERS WHERE ORDER_ID = ?"
                 user_order_id = input("Please input the order ID of the order you need information for:")
