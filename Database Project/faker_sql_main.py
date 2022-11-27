@@ -383,8 +383,83 @@ while leave != "Y":
     if action_choice == '2':
         prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
-            pass
+            tables = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
 
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            table_selection = input("Please enter the number of the table containing the record you want to modify:")
+            if table_selection == "1":
+                customer_info_sql_update = "UPDATE CUSTOMER_INFO\
+                    SET NAME = ?, STREET = ?, CITY = ?, STATE = ?, SIGNUP_DATE = ?, TC_ID =?, EMAIL =?\
+                    WHERE CUSTOMER_ID = ?"
+
+                cust_ID = input("Please input the ID number of the customer you want to update:")
+                name = input('Please input the name of the cusomer:')
+                street = input("Please enter the customer's street address:")
+                city = input("Please input the customer's city:")
+                state = input("Please input the customer's state abbreviation (TX):").upper()
+                date = input("Please input the date of the customer's account creation using the YYYY-MM-DD format:")
+                new_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
+                email = input("Please input the customer's email address:")
+                
+                
+                user_input = (name, street, city, state, date, new_TC_ID, email, cust_ID)
+
+                cursor.execute(customer_info_sql_update, user_input)
+                cursor.connection.commit()
+                print("Record updated successfully...")
+            if table_selection == "2":
+                testing_center_sql_update = "UPDATE TESTING_CENTER_INFO\
+                        SET TC_NAME = ?, STREET = ?, CITY = ?, STATE = ?, ZIP = ?, HOURS =?\
+                        WHERE TC_ID = ?"
+
+                tc_id = input("Please input the ID number of the testing center you want to update:")
+                tc_name = input("Please input the name of the testing center:")
+                street = input("Please input the testing center's street address:")
+                city = input("Please input the testing center's city:")
+                state = input("Please input the testing center's state:")
+                zip = input("Please input the testing centere's zip code(5 digit):")
+                hours = input("Please input the hours of opperation for this testing center following this format (M - F, 9AM - 5PM)")
+                user_input = (tc_name, street, city, state, zip, hours, tc_id)
+
+                cursor.execute(testing_center_sql_update, user_input)
+                cursor.connection.commit()
+                print("Record updated successfully...")
+
+            if table_selection == "3":
+                cert_orders_sql_update = "UPDATE CERT_ORDERS\
+                    SET CUSTOMER_ID = ?, CERT_ID = ?, ORDER_DATE =?, ORDER_COST = ?\
+                    WHERE ORDER_ID = ?"
+
+                order_id = input("Please input the ID number of the order you want to update:")
+                customer_id = input("Please input the ID number of the customer who made the order:")
+                cert_id = input("Please input the ID number of the cert being ordered:")
+                order_date = input("Please input the date of the order using the YYYY-MM-DD format:")
+                order_cost = input("Please input the ordercost according to the cert ordered:")
+                user_input = (customer_id, cert_id, order_date, order_cost, order_id)
+
+                cursor.execute(cert_orders_sql_update, user_input)
+                cursor.connection.commit()
+                print("Record updated successfully")
+
+            if table_selection == "4":
+                pass
+            if table_selection == "5":
+                pass
+            if table_selection == "6":
+                pass
+            if table_selection == "7":
+                pass
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
@@ -393,7 +468,35 @@ while leave != "Y":
     if action_choice == '3':
         prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
-            pass
+            tables = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
+
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            table_selection = input("Please enter the number of the table containing the record you want to modify:")
+            if table_selection == "1":
+             pass
+            if table_selection == "2":
+                pass
+            if table_selection == "3":
+                pass
+            if table_selection == "4":
+                pass
+            if table_selection == "5":
+                pass
+            if table_selection == "6":
+                pass
+            if table_selection == "7":
+                pass
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
 
         else:
             menu_print()
