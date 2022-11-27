@@ -704,7 +704,7 @@ while leave != "Y":
 
                     leave_report = 'Y'
                     menu_print()
-                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take:")
 
 
                 if report_choice == '2':
