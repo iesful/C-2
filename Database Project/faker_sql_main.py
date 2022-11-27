@@ -51,10 +51,11 @@ def menu_print():
     |2. {:^24} |\n\
     |3. {:^24} |\n\
     |4. {:^24} |\n\
-    |5. {:^24} |\n"
+    |5. {:^24} |\n\
+    |6. {:^24} |\n"
 
     print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
-    'Delete a record', 'View reports', 'Quit'))
+    'Delete a record', 'Search for a record', 'View reports', 'Quit'))
 
 #faker obj, db name, and db validation
 fake = faker.Faker('en_US')
@@ -294,17 +295,6 @@ else:
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #options menu
-def menu_print():
-    menu = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n"
-
-    print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
-    'Delete a record', 'View reports', 'Quit'))
 
 menu_print()
 #takes the user's choice from the menu options
@@ -331,7 +321,9 @@ while leave != "Y":
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
             table_selection = input("Please enter the number of the table you would like to add a record to:")
+            #if the user decides to add to customer_info table
             if table_selection == "1":
+                #all the fields that need to be populated to create a record in the customer_info table
                 entered_name = input("Please input the name of the customer(First Last):")
                 entered_street = input("Please enter the customer's street address:")
                 entered_city = input("Please input the customer's city:")
@@ -339,28 +331,37 @@ while leave != "Y":
                 entered_date = datetime.date.today()
                 entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
                 entered_email = input("Please input the customer's email address:")
+                #use the same function created at the beginning to insert into the customer_info table 
                 insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
+                #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
                 
-
+            #if the user decides to add to the testing_center_info table
             if table_selection == "2":
+                #all the fields that need to be populated to create a record in the testing_center_info table
                 entered_tc_name = input("Please input the name of the testing center:")
                 entered_tc_street = input("Please input the testing center's street address:")
                 entered_tc_city = input("Please input the testing center's city:")
-                entered_tc_state = input("Please input the testing center's state:")
+                entered_tc_state = input("Please input the testing center's state abbreviation(TX):").upper()
                 entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
                 entered_tc_hours = "M - F, 9AM - 5PM"
+                #use the function to insert into testing_center_info table
                 insert_into_testing_center_info(entered_tc_name, entered_tc_street, entered_tc_city, entered_tc_state, entered_tc_zip)
+                #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
 
+            #if the user decides to add to the cert_orders table
             if table_selection == "3":
+                #all the fields that need to be populated to creat a record in the cert_orders table
                 entered_cust_ID = input("Please enter the customer ID of the customer making the order:")
                 entered_cert_ID = input("Please enter the cert ID for the certification being ordered:")
                 entered_order_date = datetime.date.today()
                 entered_order_cost = input("Please enter the cost of the cert being ordered:")
+                #use the function to inser tinto the cert_orders table
                 insert_into_cert_orders(entered_cust_ID, entered_cert_ID, entered_order_date, entered_order_cost)
+                #commit statement so the db i supdated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
 
@@ -383,6 +384,7 @@ while leave != "Y":
     if action_choice == '2':
         prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
+            #list of the tables available to modify a record in
             tables = "\
         {:^24}  \n\n\
     |1. {:^24} |\n\
@@ -396,11 +398,16 @@ while leave != "Y":
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
             table_selection = input("Please enter the number of the table containing the record you want to modify:")
+            #if the user decides to modify a record in the customer_info table
             if table_selection == "1":
+                #sql update query for the customer_info table
                 customer_info_sql_update = "UPDATE CUSTOMER_INFO\
                     SET NAME = ?, STREET = ?, CITY = ?, STATE = ?, SIGNUP_DATE = ?, TC_ID =?, EMAIL =?\
                     WHERE CUSTOMER_ID = ?"
-
+                #included every field in the table so that one update query could be used to update 
+                #any portion of the record
+                #if you only need to update a certain field then just enter the same information
+                # already in the db for fields that don't need to be updated
                 cust_ID = input("Please input the ID number of the customer you want to update:")
                 name = input('Please input the name of the cusomer:')
                 street = input("Please enter the customer's street address:")
@@ -412,15 +419,21 @@ while leave != "Y":
                 
                 
                 user_input = (name, street, city, state, date, new_TC_ID, email, cust_ID)
-
+                #executes the sql query using the users inputs
                 cursor.execute(customer_info_sql_update, user_input)
+                #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
                 print("Record updated successfully...")
+            #if the user decides to modify a record in the testing_center_info table
             if table_selection == "2":
+                 #sql update query for the testing_center_info table
                 testing_center_sql_update = "UPDATE TESTING_CENTER_INFO\
                         SET TC_NAME = ?, STREET = ?, CITY = ?, STATE = ?, ZIP = ?, HOURS =?\
                         WHERE TC_ID = ?"
-
+                #included every field in the table so that one update query could be used to update 
+                #any portion of the record
+                #if you only need to update a certain field then just enter the same information 
+                #already in the db for fields that don't need to be updated
                 tc_id = input("Please input the ID number of the testing center you want to update:")
                 tc_name = input("Please input the name of the testing center:")
                 street = input("Please input the testing center's street address:")
@@ -429,24 +442,31 @@ while leave != "Y":
                 zip = input("Please input the testing centere's zip code(5 digit):")
                 hours = input("Please input the hours of opperation for this testing center following this format (M - F, 9AM - 5PM)")
                 user_input = (tc_name, street, city, state, zip, hours, tc_id)
-
+                #executes the sql query using the users inputs
                 cursor.execute(testing_center_sql_update, user_input)
+                #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
                 print("Record updated successfully...")
-
+            #if the user decides to update a record in the cert_orders table
             if table_selection == "3":
+                #sql update query for the cert-orders table
                 cert_orders_sql_update = "UPDATE CERT_ORDERS\
                     SET CUSTOMER_ID = ?, CERT_ID = ?, ORDER_DATE =?, ORDER_COST = ?\
                     WHERE ORDER_ID = ?"
-
+                #included every field in the table so that one update query could be used to update 
+                #any portion of the record
+                #if you only need to update a certain field then just enter the same information 
+                #already in the db for fields that don't need to be updated
                 order_id = input("Please input the ID number of the order you want to update:")
                 customer_id = input("Please input the ID number of the customer who made the order:")
                 cert_id = input("Please input the ID number of the cert being ordered:")
                 order_date = input("Please input the date of the order using the YYYY-MM-DD format:")
                 order_cost = input("Please input the ordercost according to the cert ordered:")
                 user_input = (customer_id, cert_id, order_date, order_cost, order_id)
-
+                #executes the sql query using the users inputs
                 cursor.execute(cert_orders_sql_update, user_input)
+                #commit statment to update the db as soon as the user finishes updating the data
+
                 cursor.connection.commit()
                 print("Record updated successfully")
 
@@ -463,10 +483,72 @@ while leave != "Y":
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
-
     #option 3 logic
     if action_choice == '3':
         prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
+        if prompt == "Y":
+            #list of the tables available to delete a record from
+            tables = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
+
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            table_selection = input("Please enter the number of the table containing the record you want to delete:")
+            #if the user decides to delete a record from the customer_info table
+            if table_selection == "1":
+                #sql delete query for customer_info table
+                cust_info_sql_delete = "DELETE FROM CUSTOMER_INFO WHERE CUSTOMER_ID = ?"
+                chosen_customer = input("Please input the customer ID number of the customer you want to delete:")
+                #executes the sql statement using the users input
+                cursor.execute(cust_info_sql_delete, (chosen_customer,))
+                #commit statement to update the db after the customer has been deleted
+                cursor.connection.commit()
+                print("Customer deleted successfully")
+            #if the user decides to delete a record from the testing center_info table
+            if table_selection == "2":
+                #sql delete query for testing_center_info table
+                test_cent_sql_delete = "DELETE FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
+                chosen_testing_center= input("Please input the testing center ID number of the ceneter you want to delete:")
+                #executes the sql statement using the users input
+                cursor.execute(test_cent_sql_delete, (chosen_testing_center,))
+                #commit statement to update the db after the customer has been deleted
+                cursor.connection.commit()
+                print("Testing center deleted successfully")
+            #if the user decides to delete a record from the cert_orders table
+            if table_selection == "3":
+                #sql delete query for cert_orders table
+                cert_order_sql_delete = "DELETE FROM CERT_ORDERS WHERE ORDER_ID = ?"
+                chosen_order= input("Please input the order ID number of the order you want to delete:")
+                #executes the sql statement using the users input
+                cursor.execute(cert_order_sql_delete, (chosen_order,))
+                #commit statement to update the db after the customer has been deleted
+                cursor.connection.commit()
+                print("Testing center deleted successfully")
+            if table_selection == "4":
+                pass
+            if table_selection == "5":
+                pass
+            if table_selection == "6":
+                pass
+            if table_selection == "7":
+                pass
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
+
+        else:
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
+
+    #option 4 logic
+    if action_choice == '4':
+        prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             tables = "\
         {:^24}  \n\n\
@@ -502,11 +584,11 @@ while leave != "Y":
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
-    #option 4 logic
-    if action_choice == '4':
+    #option 5 logic
+    if action_choice == '5':
         prompt = input("You have selected to view reports. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
-                    report_menu = "\n\
+            report_menu = "\n\
             {:^32}  \n\
         |1. {:^32} |\n\
         |2. {:^32} |\n\
@@ -519,81 +601,81 @@ while leave != "Y":
         |9. {:^32} |\n\
         |10.{:^32} |\n\
         |11.{:^32} |\n"
-        print(report_menu.format('Report Menu', 'Most Expensive Certifications', 'Quickest Examinee', 'Number of Upcoming Appointments',
-        'List of all Certifications', 'Highest Scoring Examinee', 'Favorite Testing Center', 'Top 3 Most Expensive Orders',
-        'Most Positive Testing Date', 'List of all Jobs', 'Highest Paying Job', 'Return to Main Menu'))
+            print(report_menu.format('Report Menu', 'Most Expensive Certifications', 'Quickest Examinee', 'Number of Upcoming Appointments',
+            'List of all Certifications', 'Highest Scoring Examinee', 'Favorite Testing Center', 'Top 3 Most Expensive Orders',
+            'Most Positive Testing Date', 'List of all Jobs', 'Highest Paying Job', 'Return to Main Menu'))
 
-        report_choice = input("Please select a report to generate: ")
-        leave_report = 'N'
-        while leave_report != 'Y':
-            if report_choice == '1':
-                data = cursor.execute("SELECT CERT_NAME, PRICE FROM CERTIFICATION_INFO").fetchall()
-                top = [('A+', 246)]
-                for i in range(len(data)):
-                    if data[i] not in top and (data[i][1] > top[0][1]):
-                        top.clear()
-                        top.append(data[i])
+            report_choice = input("Please select a report to generate: ")
+            leave_report = 'N'
+            while leave_report != 'Y':
+                if report_choice == '1':
+                    data = cursor.execute("SELECT CERT_NAME, PRICE FROM CERTIFICATION_INFO").fetchall()
+                    top = [('A+', 246)]
+                    for i in range(len(data)):
+                        if data[i] not in top and (data[i][1] > top[0][1]):
+                            top.clear()
+                            top.append(data[i])
 
-                print(f"\nMost Expensive Certification: {top[0][0]}, Price: ${top[0][1]}\n")
+                    print(f"\nMost Expensive Certification: {top[0][0]}, Price: ${top[0][1]}\n")
 
-                leave_report = 'Y'
-                menu_print()
-                action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
-
-
-            if report_choice == '2':
-                data = cursor.execute("SELECT CUSTOMER_ID, TIME_USED FROM TEST_TAKER_INFO").fetchall()
-                to_sort = []
-                for i in range(len(data)):
-                    to_sort.append([data[i][0], int(data[i][1])])
-
-                to_sort.sort(key=lambda x: int(x[1]))
-
-                customer_data = cursor.execute("SELECT CUSTOMER_ID, NAME FROM CUSTOMER_INFO").fetchall()
-                for p in range(len(to_sort)):
-                    for k in range(len(customer_data)):
-                        if to_sort[p][0] == customer_data[k][0]:
-                            to_sort[p][0] = customer_data[k][1]
-
-                print(f"\nQuickest Examinee: {to_sort[0][0]} with a time of {to_sort[0][1]} minutes!\n")
-
-                leave_report = 'Y'
-                menu_print()
-                action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
-
-
-            if report_choice == '3':
-                pass
-
-            if report_choice == '4':
-                pass
-
-            if report_choice == '5':
-                pass
-
-            if report_choice == '6':
-                pass
-
-            if report_choice == '7':
-                pass
-
-            if report_choice == '8':
-                pass
-
-            if report_choice == '9':
-                pass
-
-            if report_choice == '10':
-                pass
-
-            if report_choice == '11':
-                prompt = input("You have selected to exit the report menu would you like to continue (Y/N)? ").upper()
-                if prompt == 'Y':
-                    leave_report = prompt
+                    leave_report = 'Y'
                     menu_print()
-                    action_choice = input("Please type the number infront of the action you would like to take: ")
-                else:
-                    report_choice = input("Please select a report to generate: ")
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
+
+
+                if report_choice == '2':
+                    data = cursor.execute("SELECT CUSTOMER_ID, TIME_USED FROM TEST_TAKER_INFO").fetchall()
+                    to_sort = []
+                    for i in range(len(data)):
+                        to_sort.append([data[i][0], int(data[i][1])])
+
+                    to_sort.sort(key=lambda x: int(x[1]))
+
+                    customer_data = cursor.execute("SELECT CUSTOMER_ID, NAME FROM CUSTOMER_INFO").fetchall()
+                    for p in range(len(to_sort)):
+                        for k in range(len(customer_data)):
+                            if to_sort[p][0] == customer_data[k][0]:
+                                to_sort[p][0] = customer_data[k][1]
+
+                    print(f"\nQuickest Examinee: {to_sort[0][0]} with a time of {to_sort[0][1]} minutes!\n")
+
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
+
+
+                if report_choice == '3':
+                    pass
+
+                if report_choice == '4':
+                    pass
+
+                if report_choice == '5':
+                    pass
+
+                if report_choice == '6':
+                    pass
+
+                if report_choice == '7':
+                    pass
+
+                if report_choice == '8':
+                    pass
+
+                if report_choice == '9':
+                    pass
+
+                if report_choice == '10':
+                    pass
+
+                if report_choice == '11':
+                    prompt = input("You have selected to exit the report menu would you like to continue (Y/N)? ").upper()
+                    if prompt == 'Y':
+                        leave_report = prompt
+                        menu_print()
+                        action_choice = input("Please type the number infront of the action you would like to take: ")
+                    else:
+                        report_choice = input("Please select a report to generate: ")
         
         else:
             menu_print()
@@ -601,8 +683,8 @@ while leave != "Y":
 
         
 
-    #option 5 logic
-    if action_choice == '5':
+    #option 6 logic
+    if action_choice == '6':
         prompt = input("You have selected to exit the program would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             leave = prompt
