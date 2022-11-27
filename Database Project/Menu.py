@@ -57,7 +57,8 @@ while leave != "Y":
                 action_choice = input("Please type the number infront of the action you would like to take: ")
 
             if table_selection == "2":
-                pass
+                enterer_tc_name = input("Please input the name of the testing center:")
+                
             if table_selection == "3":
                 pass
             if table_selection == "4":
