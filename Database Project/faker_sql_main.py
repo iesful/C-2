@@ -339,18 +339,19 @@ while leave != "Y":
                 
             #if the user decides to add to the testing_center_info table
             if table_selection == "2":
-                #all the fields that need to be populated to create a record in the testing_center_info table
-                entered_tc_name = input("Please input the name of the testing center:")
-                entered_tc_street = input("Please input the testing center's street address:")
-                entered_tc_city = input("Please input the testing center's city:")
-                entered_tc_state = input("Please input the testing center's state abbreviation(TX):").upper()
-                entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
-                entered_tc_hours = "M - F, 9AM - 5PM"
+                ##all the fields that need to be populated to create a record in the testing_center_info table
+                #entered_tc_name = input("Please input the name of the testing center:")
+                #entered_tc_street = input("Please input the testing center's street address:")
+                #entered_tc_city = input("Please input the testing center's city:")
+                #entered_tc_state = input("Please input the testing center's state abbreviation(TX):").upper()
+                #entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
+                #entered_tc_hours = "M - F, 9AM - 5PM"
                 #use the function to insert into testing_center_info table
-                insert_into_testing_center_info(entered_tc_name, entered_tc_street, entered_tc_city, entered_tc_state, entered_tc_zip)
+                #insert_into_testing_center_info(entered_tc_name, entered_tc_street, entered_tc_city, entered_tc_state, entered_tc_zip)
                 #commit statemtent so the db is updated as soon as you finish entering the data
-                cursor.connection.commit()
-                print("Returning to main menu...")
+                #cursor.connection.commit()
+                #print("Returning to main menu...")
+                pass
 
             #if the user decides to add to the cert_orders table
             if table_selection == "3":
@@ -542,13 +543,14 @@ while leave != "Y":
             #if the user decides to delete a record from the testing center_info table
             if table_selection == "2":
                 #sql delete query for testing_center_info table
-                test_cent_sql_delete = "DELETE FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
-                chosen_testing_center= input("Please input the testing center ID number of the ceneter you want to delete:")
+                #test_cent_sql_delete = "DELETE FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
+                #chosen_testing_center= input("Please input the testing center ID number of the ceneter you want to delete:")
                 #executes the sql statement using the users input
-                cursor.execute(test_cent_sql_delete, (chosen_testing_center,))
+                #cursor.execute(test_cent_sql_delete, (chosen_testing_center,))
                 #commit statement to update the db after the customer has been deleted
-                cursor.connection.commit()
-                print("Testing center deleted successfully")
+                #cursor.connection.commit()
+                #print("Testing center deleted successfully")
+                pass
             #if the user decides to delete a record from the cert_orders table
             if table_selection == "3":
                 #sql delete query for cert_orders table
