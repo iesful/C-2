@@ -562,9 +562,23 @@ while leave != "Y":
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
-            table_selection = input("Please enter the number of the table containing the record you want to modify:")
+            table_selection = input("Please enter the number of the table containing the record you want to search for:")
             if table_selection == "1":
-             pass
+                cust_search_query = "SELECT * FROM CUSTOMER_INFO WHERE CUSTOMER_ID = ?"
+                cust_ID = input("Please input the customer ID of the customer you need information for:")
+                cursor.execute(cust_search_query, (cust_ID,))
+                record = cursor.fetchall()
+                for field in record:
+                    print("Customer ID = ", field[0] )
+                    print("Customer Name = ", field[1])
+                    print("Customer Address = ", field[2])
+                    print("Customer City  = ", field[3])
+                    print("Customer State = ", field[4])
+                    print("Customer Sign Up Date = ", field[5])
+                    print("Customer Prefered Testing Center = ", field[6])
+                    print("Customer Email = ", field[7], "\n")
+                    
+
             if table_selection == "2":
                 pass
             if table_selection == "3":
