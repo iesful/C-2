@@ -371,8 +371,19 @@ while leave != "Y":
                 pass
             if table_selection == "6":
                 pass
+            #if the user decides to add to the appointments table
             if table_selection == "7":
-                pass
+                #all the fields that need to be populated to create a record in the appointments table
+                entered_cust_ID = input("Please input the ID number of the cusotmer the appointment is for:")
+                entered_TC_ID= input("Please input ID number of the testing center the appointment is at:")
+                entered_cert_ID = input("Please input the ID of the cert exam being taken:")
+                entered_app_date = input("Please input the date the appointment is for in YYYY-MM-DD format:")
+                #use the function to insert into appointments table
+                insert_into_appointments(entered_cust_ID, entered_TC_ID, entered_cert_ID, entered_app_date)                
+                #commit statemtent so the db is updated as soon as you finish entering the data
+                cursor.connection.commit()
+                print("Returning to main menu...")
+                
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
@@ -477,7 +488,26 @@ while leave != "Y":
             if table_selection == "6":
                 pass
             if table_selection == "7":
-                pass
+                #sql update query for the appointments table
+                app_sql_update = "UPDATE APPOINTMENTS\
+                    SET CUSTOMER_ID = ?, TC_ID = ?, CERT_ID=?, APP_DATE = ?\
+                    WHERE APP_ID = ?"
+                #included every field in the table so that one update query could be used to update 
+                #any portion of the record
+                #if you only need to update a certain field then just enter the same information 
+                #already in the db for fields that don't need to be updated
+                app_id = input("Please input the ID number of the appointment you want to update:")
+                customer_id = input("Please input the ID number of the customer the appointment is for:")
+                app_tc_id = input("Please input the ID number of the testing center the appointment is at:")
+                cert_id = input("Please input the ID number of the cert exam being taken:")
+                app_date = input("Please input the date of the order using the YYYY-MM-DD format:")
+                user_input = (customer_id, app_tc_id, cert_id, app_date, app_id)
+                #executes the sql query using the users inputs
+                cursor.execute(app_sql_update, user_input)
+                #commit statment to update the db as soon as the user finishes updating the data
+
+                cursor.connection.commit()
+                print("Appointment updated successfully")
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
@@ -537,8 +567,16 @@ while leave != "Y":
                 pass
             if table_selection == "6":
                 pass
+            #if the user decides to delete from the appointment table
             if table_selection == "7":
-                pass
+                #sql delete query for appointment table
+                app_sql_delete = "DELETE FROM APPOINTMENTS WHERE APP_ID = ?"
+                chosen_app= input("Please input the ID number of the appointment you want to delete:")
+                #executes the sql statement using the users input
+                cursor.execute(app_sql_delete, (chosen_app,))
+                #commit statement to update the db after the customer has been deleted
+                cursor.connection.commit()
+                print("Appointment deleted successfully")
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
@@ -611,8 +649,18 @@ while leave != "Y":
                 pass
             if table_selection == "6":
                 pass
+            #if the user wants to search the appointments table
             if table_selection == "7":
-                pass
+                app_search_query = "SELECT * FROM APPOINTMENTS WHERE APP_ID = ?"
+                user_app_id = input("Please input the appointment ID of the appointment you need information for:")
+                cursor.execute(app_search_query, (user_app_id,))
+                record = cursor.fetchall()
+                for field in record:
+                    print("Appointment ID = ", field[0] )
+                    print("Customer ID of the customer who made the appointment = ", field[1])
+                    print("Testing Center ID where appointment is scheduled = ", field[2])
+                    print("Certification ID of the exam being taken = ", field[3])
+                    print("Appointment Date = ", field[4], "\n")
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
