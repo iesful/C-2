@@ -725,9 +725,18 @@ while leave != "Y":
                     menu_print()
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
-
+                #currently just shows all the appointments needs to be adjusted so it shows better data
+                #possibly upcoming appointments for each testing center.
                 if report_choice == '3':
-                    pass
+                    count_appointments = "SELECT COUNT(APP_ID) AS NUM_OF_APP FROM APPOINTMENTS "
+                    data =cursor.execute(count_appointments).fetchall()
+                    actual_count = data[0]
+
+                    print("\nThere are "+str(actual_count[0]) +" upcoming appointments.")
+
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '4':
                     pass
