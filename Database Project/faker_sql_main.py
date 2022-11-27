@@ -335,20 +335,35 @@ while leave != "Y":
                 entered_name = input("Please input the name of the customer(First Last):")
                 entered_street = input("Please enter the customer's street address:")
                 entered_city = input("Please input the customer's city:")
-                entered_state = input("Please input the customer's state abbreviation (TX):")
+                entered_state = input("Please input the customer's state abbreviation (TX):").upper()
                 entered_date = datetime.date.today()
                 entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
                 entered_email = input("Please input the customer's email address:")
                 insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
-                print("Record added successfully...")
+                cursor.connection.commit()
                 print("Returning to main menu...")
-                menu_print()
-                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
 
             if table_selection == "2":
-                pass
+                entered_tc_name = input("Please input the name of the testing center:")
+                entered_tc_street = input("Please input the testing center's street address:")
+                entered_tc_city = input("Please input the testing center's city:")
+                entered_tc_state = input("Please input the testing center's state:")
+                entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
+                entered_tc_hours = "M - F, 9AM - 5PM"
+                insert_into_testing_center_info(entered_tc_name, entered_tc_street, entered_tc_city, entered_tc_state, entered_tc_zip)
+                cursor.connection.commit()
+                print("Returning to main menu...")
+
             if table_selection == "3":
-                pass
+                entered_cust_ID = input("Please enter the customer ID of the customer making the order:")
+                entered_cert_ID = input("Please enter the cert ID for the certification being ordered:")
+                entered_order_date = datetime.date.today()
+                entered_order_cost = input("Please enter the cost of the cert being ordered:")
+                insert_into_cert_orders(entered_cust_ID, entered_cert_ID, entered_order_date, entered_order_cost)
+                cursor.connection.commit()
+                print("Returning to main menu...")
+
             if table_selection == "4":
                 pass
             if table_selection == "5":
@@ -357,6 +372,8 @@ while leave != "Y":
                 pass
             if table_selection == "7":
                 pass
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
