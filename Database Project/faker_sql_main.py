@@ -423,7 +423,7 @@ while leave != "Y":
                 cursor.execute(customer_info_sql_update, user_input)
                 #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
-                print("Record updated successfully...")
+                print("Customer updated successfully...")
             #if the user decides to modify a record in the testing_center_info table
             if table_selection == "2":
                  #sql update query for the testing_center_info table
@@ -446,7 +446,7 @@ while leave != "Y":
                 cursor.execute(testing_center_sql_update, user_input)
                 #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
-                print("Record updated successfully...")
+                print("Testing Center updated successfully...")
             #if the user decides to update a record in the cert_orders table
             if table_selection == "3":
                 #sql update query for the cert-orders table
@@ -468,7 +468,7 @@ while leave != "Y":
                 #commit statment to update the db as soon as the user finishes updating the data
 
                 cursor.connection.commit()
-                print("Record updated successfully")
+                print("Order updated successfully")
 
             if table_selection == "4":
                 pass
@@ -530,7 +530,7 @@ while leave != "Y":
                 cursor.execute(cert_order_sql_delete, (chosen_order,))
                 #commit statement to update the db after the customer has been deleted
                 cursor.connection.commit()
-                print("Testing center deleted successfully")
+                print("Order deleted successfully")
             if table_selection == "4":
                 pass
             if table_selection == "5":
