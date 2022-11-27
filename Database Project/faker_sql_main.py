@@ -477,7 +477,6 @@ while leave != "Y":
                 #executes the sql query using the users inputs
                 cursor.execute(cert_orders_sql_update, user_input)
                 #commit statment to update the db as soon as the user finishes updating the data
-
                 cursor.connection.commit()
                 print("Order updated successfully")
 
@@ -505,7 +504,6 @@ while leave != "Y":
                 #executes the sql query using the users inputs
                 cursor.execute(app_sql_update, user_input)
                 #commit statment to update the db as soon as the user finishes updating the data
-
                 cursor.connection.commit()
                 print("Appointment updated successfully")
             menu_print()
@@ -574,7 +572,7 @@ while leave != "Y":
                 chosen_app= input("Please input the ID number of the appointment you want to delete:")
                 #executes the sql statement using the users input
                 cursor.execute(app_sql_delete, (chosen_app,))
-                #commit statement to update the db after the customer has been deleted
+                #commit statement to update the db after the appointment has been deleted
                 cursor.connection.commit()
                 print("Appointment deleted successfully")
             menu_print()
