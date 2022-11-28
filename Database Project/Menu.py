@@ -42,14 +42,14 @@ while leave != "Y":
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
-            table_selection = input("Please enter the number of the table you would like to add a record to:")
+            table_selection = input("Please enter the number of the table you would like to add a record to: ")
             if table_selection == "1":
-                entered_name = input("Please input the name of the customer(First Last):")
-                entered_street = input("Please enter the customer's street address:")
-                entered_city = input("Please input the customer's city:")
-                entered_state = input("Please input the customer's state abbreviation (TX):").upper
+                entered_name = input("Please input the name of the customer in the format: (Firstname Lastname):")
+                entered_street = input("Please enter the customer's street address: ")
+                entered_city = input("Please input the customer's city: ")
+                entered_state = input("Please input the customer's state abbreviation (TX): ").upper
                 entered_date = datetime.date.today()
-                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
+                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15): ")
                 entered_email = input("Please input the customer's email address:")
                 #insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
                 print("Record added successfully...")
@@ -57,7 +57,7 @@ while leave != "Y":
                 action_choice = input("Please type the number infront of the action you would like to take: ")
 
             if table_selection == "2":
-                enterer_tc_name = input("Please input the name of the testing center:")
+                enterer_tc_name = input("Please input the name of the testing center: ")
                 
             if table_selection == "3":
                 pass
