@@ -389,8 +389,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
-        
+            action_choice = input("Please type the number infront of the action you would like to take: ")      
 
     #option 2 logic
     if action_choice == '2':
@@ -762,7 +761,7 @@ while leave != "Y":
                     pass
 
                 if report_choice == '11':
-                    prompt = input("You have selected to exit the report menu would you like to continue (Y/N)? ").upper()
+                    prompt = input("You have selected to exit the report menu. Would you like to continue (Y/N)? ").upper()
                     if prompt == 'Y':
                         leave_report = prompt
                         menu_print()
@@ -778,7 +777,7 @@ while leave != "Y":
 
     #option 6 logic
     if action_choice == '6':
-        prompt = input("You have selected to exit the program would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to exit the program. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             leave = prompt
             print("\n| {:^24} |".format('Exiting the C^2 Database Menu'))
@@ -789,7 +788,7 @@ while leave != "Y":
     else:
         print ("Selection invalid. Please enter an appropriate selection...")
         menu_print()
-        action_choice = input("Please type the number infront of the action you would like to take: ")
+        action_choice = input("Please choose an option on the list: ")
         
 
 
