@@ -327,10 +327,10 @@ while leave != "Y":
             if table_selection == "1":
 
                 #all the fields that need to be populated to create a record in the customer_info table
-                entered_name = input("Please input the name of the customer(First Last): ")
-                entered_street = input("Please enter the customer's street address: ")
-                entered_city = input("Please input the customer's city: ")
-                entered_state = input("Please input the customer's state abbreviation (TX): ").upper()
+                entered_name = input("Please input the name of the customer (e.g: Firstname Lastname): ")
+                entered_street = input("Please enter the customer's street address (e.g: 1234 Main Street): ")
+                entered_city = input("Please input the customer's city (e.g: Houston")
+                entered_state = input("Please input the customer's state abbreviation (e.g: TX): ").upper()
                 entered_date = datetime.date.today()
                 entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15): ")
                 entered_email = input("Please input the customer's email address: ")
