@@ -275,7 +275,7 @@ else:
 
         insert_into_test_taker_info(customer_ids, certification_id, testingcenter, actual_score, time_used, date_taken)
 
-    #functionality to generate appointments(FIX THIS)
+    #functionality to generate appointments
     orders_data = cursor.execute("SELECT * FROM CERT_ORDERS").fetchall()
     customer_data = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
     for i in range(15):
@@ -295,8 +295,8 @@ else:
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #options menu
-
 menu_print()
+
 #takes the user's choice from the menu options
 action_choice = input("Please type the number infront of the action you would like to take: ")
 
@@ -309,30 +309,35 @@ while leave != "Y":
         if prompt == "Y":
         #list of tables available to add a record too
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+                {:^24}  \n\n\
+            |1. {:^24} |\n\
+            |2. {:^24} |\n\
+            |3. {:^24} |\n\
+            |4. {:^24} |\n\
+            |5. {:^24} |\n\
+            |6. {:^24} |\n\
+            |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
-            table_selection = input("Please enter the number of the table you would like to add a record to:")
+
+            table_selection = input("Please enter the number of the table you would like to add a record to: ")
+
             #if the user decides to add to customer_info table
             if table_selection == "1":
+
                 #all the fields that need to be populated to create a record in the customer_info table
-                entered_name = input("Please input the name of the customer(First Last):")
-                entered_street = input("Please enter the customer's street address:")
-                entered_city = input("Please input the customer's city:")
-                entered_state = input("Please input the customer's state abbreviation (TX):").upper()
+                entered_name = input("Please input the name of the customer(First Last): ")
+                entered_street = input("Please enter the customer's street address: ")
+                entered_city = input("Please input the customer's city: ")
+                entered_state = input("Please input the customer's state abbreviation (TX): ").upper()
                 entered_date = datetime.date.today()
-                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
-                entered_email = input("Please input the customer's email address:")
+                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15): ")
+                entered_email = input("Please input the customer's email address: ")
+
                 #use the same function created at the beginning to insert into the customer_info table 
                 insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
+                
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
