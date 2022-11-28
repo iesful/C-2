@@ -332,9 +332,9 @@ while leave != "Y":
                 entered_city = input("Please input the customer's city (e.g: Houston): ")
                 entered_state = input("Please input the customer's state abbreviation (e.g: TX): ").upper()
                 entered_date = datetime.date.today()
-                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15): ")
-                entered_email = input("Please input the customer's email address: ")
-
+                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (Pick from 1-15): ")
+                entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
+                
                 #use the same function created at the beginning to insert into the customer_info table 
                 insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
                 
