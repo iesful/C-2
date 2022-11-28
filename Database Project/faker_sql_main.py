@@ -305,7 +305,7 @@ while leave != "Y":
 
     #option 1 logic
     if action_choice == '1':
-        prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? \n").upper()
+        prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
         #list of tables available to add a record too
             tables = "\
@@ -398,7 +398,7 @@ while leave != "Y":
 
     #option 2 logic
     if action_choice == '2':
-        prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? \n").upper()
+        prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             #list of the tables available to modify a record in
             tables = "\
@@ -518,7 +518,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")
     #option 3 logic
     if action_choice == '3':
-        prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? \n").upper()
+        prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             #list of the tables available to delete a record from
             tables = "\
@@ -590,7 +590,7 @@ while leave != "Y":
 
     #option 4 logic
     if action_choice == '4':
-        prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? \n").upper()
+        prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             tables = "\
         {:^24}  \n\n\
@@ -674,7 +674,7 @@ while leave != "Y":
 
     #option 5 logic
     if action_choice == '5':
-        prompt = input("You have selected to view reports. Would you like to continue (Y/N)? \n").upper()
+        prompt = input("You have selected to view reports. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             report_menu = "\n\
             {:^32}  \n\
