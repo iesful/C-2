@@ -64,7 +64,7 @@ validate_db = os.path.exists(db_name)
 
 #validates the existance of the db and creates it if nonexistant
 if validate_db:
-    print(f"Database with name: {db_name} found, fetching data and connecting...")
+    print(f"Database with name: {db_name} found, fetching data and connecting... \n")
     con = sqlite3.connect(db_name)
     cursor = con.cursor()    
 else:
