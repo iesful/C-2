@@ -305,7 +305,7 @@ while leave != "Y":
 
     #option 1 logic
     if action_choice == '1':
-        prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? \n").upper()
         if prompt == "Y":
         #list of tables available to add a record too
             tables = "\
@@ -334,7 +334,7 @@ while leave != "Y":
                 entered_date = datetime.date.today()
                 entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (Pick from 1-15): ")
                 entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
-                
+
                 #use the same function created at the beginning to insert into the customer_info table 
                 insert_into_customer_info(entered_name, entered_street, entered_city, entered_state, entered_date, entered_TC_ID, entered_email)
                 
@@ -364,11 +364,9 @@ while leave != "Y":
                 entered_cust_ID = input("Please enter the customer ID of the customer making the order: ")
                 entered_cert_ID = input("Please enter the cert ID for the certification being ordered: ")
                 entered_order_date = datetime.date.today()
-                entered_order_cost = input("Please enter the cost of the cert being ordered: ")
-
+                entered_order_cost = input("Please enter the cost of the cert being ordered:")
                 #use the function to inser tinto the cert_orders table
                 insert_into_cert_orders(entered_cust_ID, entered_cert_ID, entered_order_date, entered_order_cost)
-
                 #commit statement so the db i supdated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
@@ -386,10 +384,8 @@ while leave != "Y":
                 entered_TC_ID= input("Please input ID number of the testing center the appointment is at: ")
                 entered_cert_ID = input("Please input the ID of the cert exam being taken: ")
                 entered_app_date = input("Please input the date the appointment is for in YYYY-MM-DD format: ")
-                
                 #use the function to insert into appointments table
                 insert_into_appointments(entered_cust_ID, entered_TC_ID, entered_cert_ID, entered_app_date)                
-                
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
@@ -402,18 +398,18 @@ while leave != "Y":
 
     #option 2 logic
     if action_choice == '2':
-        prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? \n").upper()
         if prompt == "Y":
             #list of the tables available to modify a record in
             tables = "\
-                {:^24}  \n\n\
-            |1. {:^24} |\n\
-            |2. {:^24} |\n\
-            |3. {:^24} |\n\
-            |4. {:^24} |\n\
-            |5. {:^24} |\n\
-            |6. {:^24} |\n\
-            |7. {:^24} |\n"
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -428,14 +424,14 @@ while leave != "Y":
                 #any portion of the record
                 #if you only need to update a certain field then just enter the same information
                 # already in the db for fields that don't need to be updated
-                cust_ID = input("Please input the ID number of the customer you want to update:")
-                name = input('Please input the name of the cusomer:')
-                street = input("Please enter the customer's street address:")
-                city = input("Please input the customer's city:")
-                state = input("Please input the customer's state abbreviation (TX):").upper()
-                date = input("Please input the date of the customer's account creation using the YYYY-MM-DD format:")
-                new_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15):")
-                email = input("Please input the customer's email address:")
+                cust_ID = input("Please input the ID number of the customer you want to update: ")
+                name = input('Please input the name of the cusomer: ')
+                street = input("Please enter the customer's street address: ")
+                city = input("Please input the customer's city: ")
+                state = input("Please input the customer's state abbreviation (TX): ").upper()
+                date = input("Please input the date of the customer's account creation using the YYYY-MM-DD format: ")
+                new_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15): ")
+                email = input("Please input the customer's email address: ")
                 
                 
                 user_input = (name, street, city, state, date, new_TC_ID, email, cust_ID)
@@ -454,13 +450,13 @@ while leave != "Y":
                 #any portion of the record
                 #if you only need to update a certain field then just enter the same information 
                 #already in the db for fields that don't need to be updated
-                tc_id = input("Please input the ID number of the testing center you want to update:")
-                tc_name = input("Please input the name of the testing center:")
-                street = input("Please input the testing center's street address:")
-                city = input("Please input the testing center's city:")
-                state = input("Please input the testing center's state:")
-                zip = input("Please input the testing centere's zip code(5 digit):")
-                hours = input("Please input the hours of opperation for this testing center following this format (M - F, 9AM - 5PM)")
+                tc_id = input("Please input the ID number of the testing center you want to update: ")
+                tc_name = input("Please input the name of the testing center: ")
+                street = input("Please input the testing center's street address: ")
+                city = input("Please input the testing center's city: ")
+                state = input("Please input the testing center's state: ")
+                zip = input("Please input the testing centere's zip code(5 digit): ")
+                hours = input("Please input the hours of opperation for this testing center following this format (M - F, 9AM - 5PM) ")
                 user_input = (tc_name, street, city, state, zip, hours, tc_id)
                 #executes the sql query using the users inputs
                 cursor.execute(testing_center_sql_update, user_input)
@@ -504,11 +500,11 @@ while leave != "Y":
                 #any portion of the record
                 #if you only need to update a certain field then just enter the same information 
                 #already in the db for fields that don't need to be updated
-                app_id = input("Please input the ID number of the appointment you want to update:")
-                customer_id = input("Please input the ID number of the customer the appointment is for:")
-                app_tc_id = input("Please input the ID number of the testing center the appointment is at:")
-                cert_id = input("Please input the ID number of the cert exam being taken:")
-                app_date = input("Please input the date of the order using the YYYY-MM-DD format:")
+                app_id = input("Please input the ID number of the appointment you want to update: ")
+                customer_id = input("Please input the ID number of the customer the appointment is for: ")
+                app_tc_id = input("Please input the ID number of the testing center the appointment is at: ")
+                cert_id = input("Please input the ID number of the cert exam being taken: ")
+                app_date = input("Please input the date of the order using the YYYY-MM-DD format: ")
                 user_input = (customer_id, app_tc_id, cert_id, app_date, app_id)
                 #executes the sql query using the users inputs
                 cursor.execute(app_sql_update, user_input)
@@ -522,7 +518,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")
     #option 3 logic
     if action_choice == '3':
-        prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? \n").upper()
         if prompt == "Y":
             #list of the tables available to delete a record from
             tables = "\
@@ -537,12 +533,12 @@ while leave != "Y":
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
-            table_selection = input("Please enter the number of the table containing the record you want to delete:")
+            table_selection = input("Please enter the number of the table containing the record you want to delete: ")
             #if the user decides to delete a record from the customer_info table
             if table_selection == "1":
                 #sql delete query for customer_info table
                 cust_info_sql_delete = "DELETE FROM CUSTOMER_INFO WHERE CUSTOMER_ID = ?"
-                chosen_customer = input("Please input the customer ID number of the customer you want to delete:")
+                chosen_customer = input("Please input the customer ID number of the customer you want to delete: ")
                 #executes the sql statement using the users input
                 cursor.execute(cust_info_sql_delete, (chosen_customer,))
                 #commit statement to update the db after the customer has been deleted
@@ -579,7 +575,7 @@ while leave != "Y":
             if table_selection == "7":
                 #sql delete query for appointment table
                 app_sql_delete = "DELETE FROM APPOINTMENTS WHERE APP_ID = ?"
-                chosen_app= input("Please input the ID number of the appointment you want to delete:")
+                chosen_app= input("Please input the ID number of the appointment you want to delete: ")
                 #executes the sql statement using the users input
                 cursor.execute(app_sql_delete, (chosen_app,))
                 #commit statement to update the db after the appointment has been deleted
@@ -594,7 +590,7 @@ while leave != "Y":
 
     #option 4 logic
     if action_choice == '4':
-        prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? \n").upper()
         if prompt == "Y":
             tables = "\
         {:^24}  \n\n\
@@ -612,7 +608,7 @@ while leave != "Y":
             #if the user searches for a record in the customer_info table
             if table_selection == "1":
                 cust_search_query = "SELECT * FROM CUSTOMER_INFO WHERE CUSTOMER_ID = ?"
-                cust_ID = input("Please input the customer ID of the customer you need information for:")
+                cust_ID = input("Please input the customer ID of the customer you need information for: ")
                 cursor.execute(cust_search_query, (cust_ID,))
                 record = cursor.fetchall()
                 for field in record:
@@ -627,7 +623,7 @@ while leave != "Y":
             #if the user searches for a record in the testing_center_info table
             if table_selection == "2":
                 TC_search_query = "SELECT * FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
-                user_tc_id = input("Please input the Testing Center ID of the center you need information for:")
+                user_tc_id = input("Please input the Testing Center ID of the center you need information for: ")
                 cursor.execute(TC_search_query, (user_tc_id,))
                 record = cursor.fetchall()
                 for field in record:
@@ -641,7 +637,7 @@ while leave != "Y":
             #if the user searches for a record in the cert_orders table
             if table_selection == "3":
                 order_search_query = "SELECT * FROM CERT_ORDERS WHERE ORDER_ID = ?"
-                user_order_id = input("Please input the order ID of the order you need information for:")
+                user_order_id = input("Please input the order ID of the order you need information for: ")
                 cursor.execute(order_search_query, (user_order_id,))
                 record = cursor.fetchall()
                 for field in record:
@@ -660,7 +656,7 @@ while leave != "Y":
             #if the user wants to search the appointments table
             if table_selection == "7":
                 app_search_query = "SELECT * FROM APPOINTMENTS WHERE APP_ID = ?"
-                user_app_id = input("Please input the appointment ID of the appointment you need information for:")
+                user_app_id = input("Please input the appointment ID of the appointment you need information for: ")
                 cursor.execute(app_search_query, (user_app_id,))
                 record = cursor.fetchall()
                 for field in record:
@@ -678,7 +674,7 @@ while leave != "Y":
 
     #option 5 logic
     if action_choice == '5':
-        prompt = input("You have selected to view reports. Would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to view reports. Would you like to continue (Y/N)? \n").upper()
         if prompt == "Y":
             report_menu = "\n\
             {:^32}  \n\
@@ -712,7 +708,7 @@ while leave != "Y":
 
                     leave_report = 'Y'
                     menu_print()
-                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take:")
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
 
                 if report_choice == '2':
@@ -770,7 +766,7 @@ while leave != "Y":
                     pass
 
                 if report_choice == '11':
-                    prompt = input("You have selected to exit the report menu. Would you like to continue (Y/N)? ").upper()
+                    prompt = input("You have selected to exit the report menu. Would you like to continue (Y/N)? \n").upper()
                     if prompt == 'Y':
                         leave_report = prompt
                         menu_print()
@@ -786,7 +782,7 @@ while leave != "Y":
 
     #option 6 logic
     if action_choice == '6':
-        prompt = input("You have selected to exit the program. Would you like to continue (Y/N)? ").upper()
+        prompt = input("You have selected to exit the program. Would you like to continue (Y/N)? \n").upper()
         if prompt == "Y":
             leave = prompt
             print("\n| {:^24} |".format('Exiting the C^2 Database Menu'))
