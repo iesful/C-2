@@ -42,7 +42,7 @@ while leave != "Y":
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
-            table_selection = input("Please enter the number of the table you would like to add a record to:")
+            table_selection = input("Please enter the number of the table you would like to add a record to: ")
             if table_selection == "1":
                 entered_name = input("Please input the name of the customer(First Last):")
                 entered_street = input("Please enter the customer's street address:")
