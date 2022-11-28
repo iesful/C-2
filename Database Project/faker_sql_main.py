@@ -361,12 +361,14 @@ while leave != "Y":
             #if the user decides to add to the cert_orders table
             if table_selection == "3":
                 #all the fields that need to be populated to creat a record in the cert_orders table
-                entered_cust_ID = input("Please enter the customer ID of the customer making the order:")
-                entered_cert_ID = input("Please enter the cert ID for the certification being ordered:")
+                entered_cust_ID = input("Please enter the customer ID of the customer making the order: ")
+                entered_cert_ID = input("Please enter the cert ID for the certification being ordered: ")
                 entered_order_date = datetime.date.today()
-                entered_order_cost = input("Please enter the cost of the cert being ordered:")
+                entered_order_cost = input("Please enter the cost of the cert being ordered: ")
+
                 #use the function to inser tinto the cert_orders table
                 insert_into_cert_orders(entered_cust_ID, entered_cert_ID, entered_order_date, entered_order_cost)
+
                 #commit statement so the db i supdated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
@@ -380,12 +382,14 @@ while leave != "Y":
             #if the user decides to add to the appointments table
             if table_selection == "7":
                 #all the fields that need to be populated to create a record in the appointments table
-                entered_cust_ID = input("Please input the ID number of the cusotmer the appointment is for:")
-                entered_TC_ID= input("Please input ID number of the testing center the appointment is at:")
-                entered_cert_ID = input("Please input the ID of the cert exam being taken:")
-                entered_app_date = input("Please input the date the appointment is for in YYYY-MM-DD format:")
+                entered_cust_ID = input("Please input the ID number of the cusotmer the appointment is for: ")
+                entered_TC_ID= input("Please input ID number of the testing center the appointment is at: ")
+                entered_cert_ID = input("Please input the ID of the cert exam being taken: ")
+                entered_app_date = input("Please input the date the appointment is for in YYYY-MM-DD format: ")
+                
                 #use the function to insert into appointments table
                 insert_into_appointments(entered_cust_ID, entered_TC_ID, entered_cert_ID, entered_app_date)                
+                
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
@@ -402,14 +406,14 @@ while leave != "Y":
         if prompt == "Y":
             #list of the tables available to modify a record in
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+                {:^24}  \n\n\
+            |1. {:^24} |\n\
+            |2. {:^24} |\n\
+            |3. {:^24} |\n\
+            |4. {:^24} |\n\
+            |5. {:^24} |\n\
+            |6. {:^24} |\n\
+            |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
