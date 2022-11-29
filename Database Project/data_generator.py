@@ -43,7 +43,7 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
 
 #faker obj, db name, and db validation
 fake = faker.Faker('en_US')
-db_name = "test.db"
+db_name = "C^2.db"
 validate_db = os.path.exists(db_name)
 
 #validates the existance of the db and creates it if nonexistant
