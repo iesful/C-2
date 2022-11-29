@@ -488,14 +488,9 @@ while leave != "Y":
         {:^24}  \n\n\
     |1. {:^24} |\n\
     |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+    |3. {:^24} |\n"
 
-            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
-             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            print(tables.format('Tables', 'CUSTOMER_INFO','CERT_ORDERS','APPOINTMENTS' ))
             table_selection = input("Please enter the number of the table containing the record you want to delete: ")
             #if the user decides to delete a record from the customer_info table
             if table_selection == "1":
@@ -507,19 +502,9 @@ while leave != "Y":
                 #commit statement to update the db after the customer has been deleted
                 cursor.connection.commit()
                 print("Customer deleted successfully")
-            #if the user decides to delete a record from the testing center_info table
-            if table_selection == "2":
-                #sql delete query for testing_center_info table
-                #test_cent_sql_delete = "DELETE FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
-                #chosen_testing_center= input("Please input the testing center ID number of the ceneter you want to delete:")
-                #executes the sql statement using the users input
-                #cursor.execute(test_cent_sql_delete, (chosen_testing_center,))
-                #commit statement to update the db after the customer has been deleted
-                #cursor.connection.commit()
-                #print("Testing center deleted successfully")
-                pass
+            
             #if the user decides to delete a record from the cert_orders table
-            if table_selection == "3":
+            if table_selection == "2":
                 #sql delete query for cert_orders table
                 cert_order_sql_delete = "DELETE FROM CERT_ORDERS WHERE ORDER_ID = ?"
                 chosen_order= input("Please input the order ID number of the order you want to delete:")
@@ -528,14 +513,9 @@ while leave != "Y":
                 #commit statement to update the db after the customer has been deleted
                 cursor.connection.commit()
                 print("Order deleted successfully")
-            if table_selection == "4":
-                pass
-            if table_selection == "5":
-                pass
-            if table_selection == "6":
-                pass
+
             #if the user decides to delete from the appointment table
-            if table_selection == "7":
+            if table_selection == "3":
                 #sql delete query for appointment table
                 app_sql_delete = "DELETE FROM APPOINTMENTS WHERE APP_ID = ?"
                 chosen_app= input("Please input the ID number of the appointment you want to delete: ")
@@ -560,13 +540,9 @@ while leave != "Y":
     |1. {:^24} |\n\
     |2. {:^24} |\n\
     |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+    |4. {:^24} |\n"
 
-            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
-             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO','CERT_ORDERS','APPOINTMENTS' ))
             table_selection = input("Please enter the number of the table containing the record you want to search for:")
             #if the user searches for a record in the customer_info table
             if table_selection == "1":
@@ -610,14 +586,8 @@ while leave != "Y":
                     print("Order Date = ", field[3])
                     print("Order Cost = ", field[4], "\n")
 
-            if table_selection == "4":
-                pass
-            if table_selection == "5":
-                pass
-            if table_selection == "6":
-                pass
             #if the user wants to search the appointments table
-            if table_selection == "7":
+            if table_selection == "4":
                 app_search_query = "SELECT * FROM APPOINTMENTS WHERE APP_ID = ?"
                 user_app_id = input("Please input the appointment ID of the appointment you need information for: ")
                 cursor.execute(app_search_query, (user_app_id,))
