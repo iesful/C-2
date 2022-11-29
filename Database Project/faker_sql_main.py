@@ -69,11 +69,12 @@ while leave != "Y":
             #if the user decides to add to the testing_center_info table
             if table_selection == "2":
                 ##all the fields that need to be populated to create a record in the testing_center_info table
-                entered_tc_name = input("Please input the name of the testing center: ")
-                entered_tc_street = input("Please input the testing center's street address: ")
-                entered_tc_city = input("Please input the testing center's city:")
-                entered_tc_state = input("Please input the testing center's state abbreviation(TX): ").upper()
-                entered_tc_zip = input("Please input the testing centere's zip code(5 digit): ")
+                entered_tc_name = input("Please input the name of the testing center (e.g.: Webster TC): ")
+                entered_tc_street = input("Please input the testing center's street address (e.g: 1234 Main Street): ")
+                entered_city = input("Please input the customer's city (e.g: Houston): ")
+                entered_tc_city = input("Please input the testing center's city (e.g: Houston): ")
+                entered_tc_state = input("Please input the testing center's state abbreviation (e.g.: TX): ").upper()
+                entered_tc_zip = input("Please input the testing centere's zip code (5 digit from e.g.: 77509): ")
                 entered_tc_hours = "M - F, 9AM - 5PM"
                 entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
                 
@@ -87,7 +88,7 @@ while leave != "Y":
 
             #if the user decides to add to the cert_orders table
             if table_selection == "3":
-                #all the fields that need to be populated to creat a record in the cert_orders table
+                #all the fields that need to be populated to create a record in the cert_orders table
                 entered_cust_ID = input("Please enter the customer ID of the customer making the order: ")
                 entered_cert_ID = input("Please enter the cert ID for the certification being ordered: ")
                 entered_order_date = datetime.date.today()
@@ -97,13 +98,40 @@ while leave != "Y":
                 #commit statement so the db i supdated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
-
+                
+            #if a user decides to add to the test_taker_info table
             if table_selection == "4":
-                pass
+                entered_exam_id = input("Please enter the exam id you'd like to add: ")
+                entered_cust_id = input("Please enter the customer ID of the customer making the order: ")
+                entered_cert_id = input("Please enter the cert ID for the certification being ordered: ")
+                entered_tc_id = input("Please enter the name of the testing center ID you'd like to add: ")
+                entered_actual_score = input("Please enter the value of the actual score you'd like to add: ")
+                entered_time_used = input("Please enter the amount of time spent on this exam: ")
+                entered_date_taken = input("Please enter the date in which you'd like to add: ")
+                insert_into_test_taker_info(entered_exam_id, entered_cust_id, entered_cert_id, entered_tc_id, entered_actual_score, entered_time_used, entered_date_taken)
+                cursor.connection.commit()
+                print("Returning to main menu...")
+                
+            #if a user decides to add to the certification_info table
             if table_selection == "5":
-                pass
+                entered_cert_id = input("Please enter the cert ID for the certification being ordered: ")
+                entered_cert_name = input("Please enter the name of the certificaiton you'd like to add: ")
+                entered_exam_code = input("Please enter the exam code you'd like to add: ")
+                entered_price = input("Please enter the price of the exam you'd like to add: ")
+                entered_test_duration = input("Please enter the duration of the exam you'd like to add: ")
+                entered_passing_score = input("Please enter the passing score of the exam you'd like to add: ")
+                entered_number_of_questions = input("Please enter the value of the number of questions your exam has: ")
+                insert_into_certification_info = (entered_cert_id, entered_cert_name, entered_exam_code, entered_price, entered_test_duration, entered_passing_score, entered_number_of_questions)
+                print("Returning to main menu...")
+                
+            #if the user decides to add to the job_info_opportunities table
             if table_selection == "6":
-                pass
+                entered_job_id = input("Please enter the job ID relevant to the certification: ")
+                entered_job_title = input("Please enter the job title relevant to the certification")
+                entered_salary = input("Please enter the salary the individual may earn: ")
+                entered_cert_id = input("Please enter the cert ID for the associated certification: ")
+                insert_into_job_opportunities_table(entered_job_id, entered_job_title, entered_salary, entered_cert_id)
+                print("Returning to main menu...")
             #if the user decides to add to the appointments table
             if table_selection == "7":
                 #all the fields that need to be populated to create a record in the appointments table
