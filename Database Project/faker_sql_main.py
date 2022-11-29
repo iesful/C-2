@@ -312,14 +312,9 @@ while leave != "Y":
                 {:^24}  \n\n\
             |1. {:^24} |\n\
             |2. {:^24} |\n\
-            |3. {:^24} |\n\
-            |4. {:^24} |\n\
-            |5. {:^24} |\n\
-            |6. {:^24} |\n\
-            |7. {:^24} |\n"
+            |3. {:^24} |\n"
 
-            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
-             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            print(tables.format('Tables', 'CUSTOMER_INFO','CERT_ORDERS','APPOINTMENTS'))
 
             table_selection = input("Please enter the number of the table you would like to add a record to: ")
 
@@ -341,25 +336,9 @@ while leave != "Y":
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
-                
-            #if the user decides to add to the testing_center_info table
-            if table_selection == "2":
-                ##all the fields that need to be populated to create a record in the testing_center_info table
-                #entered_tc_name = input("Please input the name of the testing center:")
-                #entered_tc_street = input("Please input the testing center's street address:")
-                #entered_tc_city = input("Please input the testing center's city:")
-                #entered_tc_state = input("Please input the testing center's state abbreviation(TX):").upper()
-                #entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
-                #entered_tc_hours = "M - F, 9AM - 5PM"
-                #use the function to insert into testing_center_info table
-                #insert_into_testing_center_info(entered_tc_name, entered_tc_street, entered_tc_city, entered_tc_state, entered_tc_zip)
-                #commit statemtent so the db is updated as soon as you finish entering the data
-                #cursor.connection.commit()
-                #print("Returning to main menu...")
-                pass
 
             #if the user decides to add to the cert_orders table
-            if table_selection == "3":
+            if table_selection == "2":
                 #all the fields that need to be populated to creat a record in the cert_orders table
                 entered_cust_ID = input("Please enter the customer ID of the customer making the order: ")
                 entered_cert_ID = input("Please enter the cert ID for the certification being ordered: ")
@@ -371,14 +350,8 @@ while leave != "Y":
                 cursor.connection.commit()
                 print("Returning to main menu...")
 
-            if table_selection == "4":
-                pass
-            if table_selection == "5":
-                pass
-            if table_selection == "6":
-                pass
             #if the user decides to add to the appointments table
-            if table_selection == "7":
+            if table_selection == "3":
                 #all the fields that need to be populated to create a record in the appointments table
                 entered_cust_ID = input("Please input the ID number of the cusotmer the appointment is for: ")
                 entered_TC_ID= input("Please input ID number of the testing center the appointment is at: ")
@@ -504,7 +477,7 @@ while leave != "Y":
                 customer_id = input("Please input the ID number of the customer the appointment is for: ")
                 app_tc_id = input("Please input the ID number of the testing center the appointment is at: ")
                 cert_id = input("Please input the ID number of the cert exam being taken: ")
-                app_date = input("Please input the date of the order using the YYYY-MM-DD format: ")
+                app_date = input("Please input the date of the appointment using the YYYY-MM-DD format: ")
                 user_input = (customer_id, app_tc_id, cert_id, app_date, app_id)
                 #executes the sql query using the users inputs
                 cursor.execute(app_sql_update, user_input)
@@ -782,7 +755,7 @@ while leave != "Y":
 
     #option 6 logic
     if action_choice == '6':
-        prompt = input("You have selected to exit the program. Would you like to continue (Y/N)? \n").upper()
+        prompt = input("You have selected to exit the program. Would you like to continue (Y/N)?").upper()
         if prompt == "Y":
             leave = prompt
             print("\n| {:^24} |".format('Exiting the C^2 Database Menu'))
