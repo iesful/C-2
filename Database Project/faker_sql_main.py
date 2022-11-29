@@ -2,6 +2,7 @@ import sqlite3, datetime
 from data_generator import *
 
 cursor = sqlite3.connect('C^2.db')
+cursor = cursor.cursor()
 
 #options menu
 
@@ -9,6 +10,7 @@ cursor = sqlite3.connect('C^2.db')
 def menu_print():
     menu = "\
         {:^24}  \n\n\
+    |0. {:^24} |\n\
     |1. {:^24} |\n\
     |2. {:^24} |\n\
     |3. {:^24} |\n\
@@ -16,7 +18,7 @@ def menu_print():
     |5. {:^24} |\n\
     |6. {:^24} |\n"
 
-    print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
+    print(menu.format('C^2 Database Menu', 'View records', 'Add a new record', 'Modify a record',
     'Delete a record', 'Search for a record', 'View reports', 'Quit'))
 
 menu_print()
@@ -26,7 +28,97 @@ action_choice = input("Please type the number infront of the action you would li
 
 leave = 'N'
 while leave != "Y":
+    #option 0 logic
+    if action_choice == '0':
+        prompt = input("You have selected to view records. Would you like to continue (Y/N)? ").upper()
+        if prompt == "Y":
+            
+        #list of tables available to view records of CUSTOMER_INFO
+            tables = "\
+                {:^24}  \n\n\
+            |1. {:^24} |\n\
+            |2. {:^24} |\n\
+            |3. {:^24} |\n\
+            |4. {:^24} |\n\
+            |5. {:^24} |\n\
+            |6. {:^24} |\n\
+            |7. {:^24} |\n"
 
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            
+            table_selection = input("Please enter the number of the table you would like to view to (e.g.: 1 - 7): ")
+            print()
+            if table_selection == "1":
+                print("Displaying CUSTOMER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CUSTOMER_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            if table_selection == "2":
+                print("Displaying TESTING_CENTER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM TESTING_CENTER_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
+            if table_selection == "3":
+                print("Displaying CERT_ORDERS Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CERT_ORDERS")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
+            if table_selection == "4":
+                print("Displaying TEST_TAKER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM TTEST_TAKER_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            if table_selection == "5":
+                print("Displaying CERTIFICATION_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CERTIFICATION_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            if table_selection == "6":
+                print("Displaying JOB_INFO_OPPORTUNITIES Table Records:")
+                print()
+                cursor.execute("SELECT * FROM JOB_INFO_OPPORTUNITIES")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
+            if table_selection == "7":
+                print("Displaying APPOINTMENT Table Records:")
+                print()
+                cursor.execute("SELECT * FROM APPOINTMENTS")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
     #option 1 logic
     if action_choice == '1':
         prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
@@ -84,7 +176,8 @@ while leave != "Y":
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
-                pass
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
 
             #if the user decides to add to the cert_orders table
             if table_selection == "3":
@@ -98,6 +191,8 @@ while leave != "Y":
                 #commit statement so the db i supdated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
                 
             #if a user decides to add to the test_taker_info table
             if table_selection == "4":
@@ -111,6 +206,8 @@ while leave != "Y":
                 insert_into_test_taker_info(entered_exam_id, entered_cust_id, entered_cert_id, entered_tc_id, entered_actual_score, entered_time_used, entered_date_taken)
                 cursor.connection.commit()
                 print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
                 
             #if a user decides to add to the certification_info table
             if table_selection == "5":
@@ -123,6 +220,8 @@ while leave != "Y":
                 entered_number_of_questions = input("Please enter the value of the number of questions your exam has: ")
                 insert_into_certification_info = (entered_cert_id, entered_cert_name, entered_exam_code, entered_price, entered_test_duration, entered_passing_score, entered_number_of_questions)
                 print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
                 
             #if the user decides to add to the job_info_opportunities table
             if table_selection == "6":
@@ -132,6 +231,8 @@ while leave != "Y":
                 entered_cert_id = input("Please enter the cert ID for the associated certification: ")
                 insert_into_job_opportunities_table(entered_job_id, entered_job_title, entered_salary, entered_cert_id)
                 print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
             #if the user decides to add to the appointments table
             if table_selection == "7":
                 #all the fields that need to be populated to create a record in the appointments table
@@ -145,8 +246,8 @@ while leave != "Y":
                 cursor.connection.commit()
                 print("Returning to main menu...")
                 
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")      
@@ -157,14 +258,14 @@ while leave != "Y":
         if prompt == "Y":
             #list of the tables available to modify a record in
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n\
+        |4. {:^24} |\n\
+        |5. {:^24} |\n\
+        |6. {:^24} |\n\
+        |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -277,14 +378,14 @@ while leave != "Y":
         if prompt == "Y":
             #list of the tables available to delete a record from
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n\
+        |4. {:^24} |\n\
+        |5. {:^24} |\n\
+        |6. {:^24} |\n\
+        |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -348,14 +449,14 @@ while leave != "Y":
         prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n\
+        |4. {:^24} |\n\
+        |5. {:^24} |\n\
+        |6. {:^24} |\n\
+        |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -544,11 +645,11 @@ while leave != "Y":
         else:
             menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
-
-    else:
-        print ("Selection invalid. Please enter an appropriate selection...")
-        menu_print()
-        action_choice = input("Please choose an option on the list: ")
+    #This code below introduces a bug 
+    #else:
+        #print ("Selection invalid. Please enter an appropriate selection...")
+        #menu_print()
+        #action_choice = input("Please choose an option on the list: ")
         
 
 
