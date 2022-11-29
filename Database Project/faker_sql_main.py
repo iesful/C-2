@@ -127,7 +127,7 @@ while leave != "Y":
             #if the user decides to add to the job_info_opportunities table
             if table_selection == "6":
                 entered_job_id = input("Please enter the job ID relevant to the certification: ")
-                entered_job_title = input("Please enter the job title relevant to the certification")
+                entered_job_title = input("Please enter the job title relevant to the certification: ")
                 entered_salary = input("Please enter the salary the individual may earn: ")
                 entered_cert_id = input("Please enter the cert ID for the associated certification: ")
                 insert_into_job_opportunities_table(entered_job_id, entered_job_title, entered_salary, entered_cert_id)
