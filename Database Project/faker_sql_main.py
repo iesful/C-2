@@ -1,5 +1,7 @@
-import sqlite3, os, datetime, random
+import sqlite3, datetime
 from data_generator import *
+
+cursor = sqlite3.connect('C^2.db')
 
 #options menu
 
@@ -43,7 +45,7 @@ while leave != "Y":
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
 
-            table_selection = input("Please enter the number of the table you would like to add a record to (e.g.: 1-7): ")
+            table_selection = input("Please enter the number of the table you would like to add a record to (e.g.: 1 - 7): ")
 
             #if the user decides to add to customer_info table
             if table_selection == "1":
@@ -54,7 +56,7 @@ while leave != "Y":
                 entered_city = input("Please input the customer's city (e.g: Houston): ")
                 entered_state = input("Please input the customer's state abbreviation (e.g: TX): ").upper()
                 entered_date = datetime.date.today()
-                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (Pick from 1-15): ")
+                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (Pick from 1 - 15): ")
                 entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
 
                 #use the same function created at the beginning to insert into the customer_info table 
@@ -67,11 +69,11 @@ while leave != "Y":
             #if the user decides to add to the testing_center_info table
             if table_selection == "2":
                 ##all the fields that need to be populated to create a record in the testing_center_info table
-                entered_tc_name = input("Please input the name of the testing center:")
-                entered_tc_street = input("Please input the testing center's street address:")
+                entered_tc_name = input("Please input the name of the testing center: ")
+                entered_tc_street = input("Please input the testing center's street address: ")
                 entered_tc_city = input("Please input the testing center's city:")
-                entered_tc_state = input("Please input the testing center's state abbreviation(TX):").upper()
-                entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
+                entered_tc_state = input("Please input the testing center's state abbreviation(TX): ").upper()
+                entered_tc_zip = input("Please input the testing centere's zip code(5 digit): ")
                 entered_tc_hours = "M - F, 9AM - 5PM"
                 entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
                 
@@ -198,11 +200,11 @@ while leave != "Y":
                 #any portion of the record
                 #if you only need to update a certain field then just enter the same information 
                 #already in the db for fields that don't need to be updated
-                order_id = input("Please input the ID number of the order you want to update:")
-                customer_id = input("Please input the ID number of the customer who made the order:")
-                cert_id = input("Please input the ID number of the cert being ordered:")
-                order_date = input("Please input the date of the order using the YYYY-MM-DD format:")
-                order_cost = input("Please input the ordercost according to the cert ordered:")
+                order_id = input("Please input the ID number of the order you want to update: ")
+                customer_id = input("Please input the ID number of the customer who made the order: ")
+                cert_id = input("Please input the ID number of the cert being ordered: ")
+                order_date = input("Please input the date of the order using the YYYY-MM-DD format: ")
+                order_cost = input("Please input the ordercost according to the cert ordered: ")
                 user_input = (customer_id, cert_id, order_date, order_cost, order_id)
                 #executes the sql query using the users inputs
                 cursor.execute(cert_orders_sql_update, user_input)
