@@ -1,52 +1,16 @@
-# note: you MUST have installed the faker module and sqlite3 
-# through pip for these imports to work on your own machine
-import faker, sqlite3, os, datetime, random
-import faker.providers.address.en_US
+import sqlite3, datetime
+from data_generator import *
 
-#inserts new records into customer info table
-def insert_into_customer_info(name, street, city, state, signup_date, tc_id, email):
-    cursor.execute("\
-        INSERT INTO CUSTOMER_INFO (NAME, STREET, CITY, STATE, SIGNUP_DATE, TC_ID, EMAIL)\
-        VALUES (?, ?, ?, ?, ?, ?, ?)", (name, street, city, state, signup_date, tc_id, email))
+cursor = sqlite3.connect('C^2.db')
+cursor = cursor.cursor()
 
-    print("Record inserted into Customer_Info...")
-
-#inserts new records into testing center info table
-def insert_into_testing_center_info(name, street, city, state, postal):
-    cursor.execute("\
-        INSERT INTO TESTING_CENTER_INFO (TC_NAME, STREET, CITY, STATE, ZIP, HOURS)\
-        VALUES (?, ?, ?, ?, ?, 'M - F, 9AM - 5PM')", (name, street, city, state, postal))
-
-    print("Record inserted into Testing_Center_Info...")
-
-#inserts new records into test taker info table
-def insert_into_test_taker_info(customer_id, cert_id, tc_id, actual_score, time_used, date_taken):
-    cursor.execute("\
-        INSERT INTO TEST_TAKER_INFO (CUSTOMER_ID, CERT_ID, TC_ID, ACTUAL_SCORE, TIME_USED, DATE_TAKEN)\
-            VALUES (?, ?, ?, ?, ?, ?)", (customer_id, cert_id, tc_id, actual_score, time_used, date_taken))
-
-    print("Record inserted Test_Taker_Info...")
-
-#inserts records into appointments table
-def insert_into_appointments(customer_id, tc_id, cert_id, app_date):
-    cursor.execute("\
-        INSERT INTO APPOINTMENTS (CUSTOMER_ID, TC_ID, CERT_ID, APP_DATE)\
-            VALUES (?, ?, ?, ?)", (customer_id, tc_id, cert_id, app_date))
-
-    print("Record inserted into Appointments...")
-    
-#inserts into cert_orders table
-def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
-    cursor.execute("\
-        INSERT INTO CERT_ORDERS (CUSTOMER_ID, CERT_ID, ORDER_DATE, ORDER_COST)\
-            VALUES (?, ?, ?, ?)", (customer_id, cert_id, order_date, order_cost))
-
-    print("Record inserted into Cert_Orders...")
+#options menu
 
 #prints options menu
 def menu_print():
     menu = "\
         {:^24}  \n\n\
+    |0. {:^24} |\n\
     |1. {:^24} |\n\
     |2. {:^24} |\n\
     |3. {:^24} |\n\
@@ -54,247 +18,9 @@ def menu_print():
     |5. {:^24} |\n\
     |6. {:^24} |\n"
 
-    print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
+    print(menu.format('C^2 Database Menu', 'View records', 'Add a new record', 'Modify a record',
     'Delete a record', 'Search for a record', 'View reports', 'Quit'))
 
-#faker obj, db name, and db validation
-fake = faker.Faker('en_US')
-db_name = "C^2.db"
-validate_db = os.path.exists(db_name)
-
-#validates the existance of the db and creates it if nonexistant
-if validate_db:
-    print(f"Database with name: {db_name} found, fetching data and connecting... \n")
-    con = sqlite3.connect(db_name)
-    cursor = con.cursor()    
-else:
-    print(f"No database found with name: {db_name}, generating new DB...")
-    con = sqlite3.connect(db_name)
-    cursor = con.cursor()
-
-    #creates customer info table
-    cursor.execute("\
-        CREATE TABLE CUSTOMER_INFO ( \
-            CUSTOMER_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, \
-            NAME VARCHAR(255) NOT NULL, \
-            STREET VARCHAR(50) NOT NULL, \
-            CITY VARCHAR(30) NOT NULL, \
-            STATE VARCHAR(2) NOT NULL, \
-            SIGNUP_DATE DATE NOT NULL, \
-            TC_ID INT NOT NULL,\
-            EMAIL VARCHAR(100) NOT NULL,\
-            FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID) \
-        );")
-
-    print("CUSTOMER_INFO TABLE CREATED...")
-    
-    #creates test taker info table
-    cursor.execute("\
-        CREATE TABLE TEST_TAKER_INFO (\
-            EXAM_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, \
-            CUSTOMER_ID INT NOT NULL, \
-            CERT_ID INT NOT NULL,\
-            TC_ID INT NOT NULL,\
-            ACTUAL_SCORE INT NOT NULL,\
-            TIME_USED VARCHAR(20) NOT NULL,\
-            DATE_TAKEN SMALLDATE NOT NULL, \
-            FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID),\
-            FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID),\
-            FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
-        );")
-    print("TEST_TAKER_INFO TABLE CREATED...")
-
-    #creates testing center info table
-    cursor.execute("\
-        CREATE TABLE TESTING_CENTER_INFO (\
-            TC_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            TC_NAME VARCHAR(40) NOT NULL,\
-            STREET VARCHAR(50) NOT NULL,\
-            CITY VARCHAR(25) NOT NULL,\
-            STATE VARCHAR(2) NOT NULL,\
-            ZIP VARCHAR(5) NOT NULL,\
-            HOURS VARCHAR(50) NOT NULL\
-        );")
-    print("TESTING_CENTER_INFO TABLE CREATED...")
-
-    #creates cert orders table
-    cursor.execute("\
-        CREATE TABLE CERT_ORDERS (\
-            ORDER_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            CUSTOMER_ID INT NOT NULL,\
-            CERT_ID INT NOT NULL,\
-            ORDER_DATE SMALLDATE NOT NULL,\
-            ORDER_COST FLOAT(5,2) NOT NULL,\
-            FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID),\
-            FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
-        );")
-    print("CERT_ORDERS TABLE CREATED...")
-
-    #creates certification info table
-    cursor.execute("\
-        CREATE TABLE CERTIFICATION_INFO (\
-            CERT_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            CERT_NAME VARCHAR(50) NOT NULL,\
-            EXAM_CODE VARCHAR(10) NOT NULL,\
-            PRICE INT NOT NULL,\
-            TEST_DURATION INT NOT NULL,\
-            PASSING_SCORE INT NOT NULL,\
-            RENEWABLE BOOLEAN NOT NULL,\
-            NUM_OF_QUESTIONS INT NOT NULL\
-        );")
-    print("CERTIFICATION_INFO TABLE CREATED...")
-
-    #creats job infor table
-    cursor.execute("\
-        CREATE TABLE JOB_INFO_OPPORTUNITIES (\
-            JOB_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            JOB_TITLE VARCHAR(100) NOT NULL,\
-            SALARY VARCHAR(10) NOT NULL,\
-            CERT_ID INT NOT NULL,\
-            FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
-        );")
-    print("JOB_INFO_OPPORTUNITIES TABLE CREATED...")
-
-    #creates appointments table
-    cursor.execute("\
-        CREATE TABLE APPOINTMENTS (\
-            APP_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
-            CUSTOMER_ID INT NOT NULL,\
-            TC_ID INT NOT NULL,\
-            CERT_ID INT NOT NULL,\
-            APP_DATE DATE NOT NULL,\
-            FOREIGN KEY (CUSTOMER_ID) REFERENCES CUSTOMER_INFO(CUSTOMER_ID),\
-            FOREIGN KEY (TC_ID) REFERENCES TESTING_CENTER_INFO(TC_ID),\
-            FOREIGN KEY (CERT_ID) REFERENCES CERTIFICATION_INFO(CERT_ID)\
-        );")
-    print("APPOINTMENTS TABLE CREATED...")
-
-    #inserts records into certification_info table
-    cursor.execute('\
-        INSERT INTO CERTIFICATION_INFO (CERT_NAME, EXAM_CODE, PRICE, TEST_DURATION, PASSING_SCORE, RENEWABLE, NUM_OF_QUESTIONS)\
-            VALUES ("IT Fundamentals (ITF+)", "FC0-U61", 134.00, 60, 650, FALSE, 75),\
-            ("A+", "220-1001", 246.00, 90, 675, TRUE, 90),\
-            ("A+", "220-1002", 246.00, 90, 700, TRUE, 90),\
-            ("A+", "220-1101", 246.00, 90, 675, TRUE, 90),\
-            ("A+", "220-1102", 246.00, 90, 700, TRUE, 90),\
-            ("Network+", "N10-007", 358.00, 90, 720, TRUE, 90),\
-            ("Network+", "N10-008", 358.00, 90, 720, TRUE, 90),\
-            ("Security+", "SY0-601", 392.00, 90, 750, TRUE, 90),\
-            ("Cloud+", "CV0-002", 358.00, 90, 750, TRUE, 90),\
-            ("Cloud+", "CV0-003", 358.00, 90, 750, TRUE, 90),\
-            ("Linux+", "XK0-004", 358.00, 90, 720, TRUE, 90),\
-            ("Linux+", "XK0-005", 358.00, 90, 720, TRUE, 90),\
-            ("Server+", "SK0-004", 358.00, 90, 750, FALSE, 100),\
-            ("Server+", "SK0-005", 358.00, 90, 750, FALSE, 90),\
-            ("Cyber Security Analyst (CySA)", "CS0-002", 392.00, 165, 750, FALSE, 85),\
-            ("Pentest+","PT0-001", 392.00, 165, 750, TRUE, 85),\
-            ("Pentest+","PT0-002", 392.00, 165, 750, TRUE, 85),\
-            ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-003", 494.00, 165, 100, TRUE, 90),\
-            ("CompTIA Advanced Security Practitioner (CASP+)", "CAS-004", 494.00, 165, 100, TRUE, 90),\
-            ("Data+", "DA0-001", 246.00, 90, 675, TRUE, 90),\
-            ("Certified Technical Trainer (CTT+)", "TK0-201", 358.00, 90, 655, FALSE, 95),\
-            ("Cloud Essentials+", "CLO-002", 134.00, 60, 720, FALSE, 75),\
-            ("Project+", "PK0-004", 358.00, 90, 710, FALSE, 95),\
-            ("Project+", "PK0-005", 358.00, 90, 710, FALSE, 90)\
-            ;')
-    print("CERTIFICATION_INFO records created...")
-
-    #fetches all cert ids
-    certs = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
-    job_statement = "\
-        INSERT INTO JOB_INFO_OPPORTUNITIES (JOB_TITLE, SALARY, CERT_ID)\
-            VALUES ('Help Desk Technician', 43931, IT Fundamentals (ITF+)),\
-            ('Desktop Support Specialist', 53835, A+),\
-            ('Network Engineer', 77040, Network+),\
-            ('Systems Administrator', 64157, Security+),\
-            ('Cloud Engineer', 92504, Cloud+),\
-            ('Linux System Administrator', 79961, Linux+),\
-            ('Data Center Technician', 58260, Server+),\
-            ('Security Analyst', 70562, Cyber Security Analyst (CySA)),\
-            ('Penetration Tester', 88545, Pentest+),\
-            ('Security Architect', 130989, CompTIA Advanced Security Practitioner (CASP+)),\
-            ('Data Analyst', 63577, Data+),\
-            ('Training Consultant', 58613, Certified Technical Trainer (CTT+)),\
-            ('Business Analyst', 71358, Cloud Essentials+),\
-            ('IT Project Manager', 89355, Project+);"
-
-    #loops through cert ids and replaces cert names with id
-    for i in range(len(certs)):
-        if certs[i][1] in job_statement:
-            job_statement = job_statement.replace(certs[i][1], str(certs[i][0]))
-
-    #executes insert statement
-    cursor.execute(job_statement)
-    print("JOB_INFO_OPPORTUNITIES records created...")
-
-    #loop to insert records into customer info table
-    for _ in range(15):
-        insert_into_customer_info(fake.name(), fake.street_address(), fake.city(), 'TX', datetime.date.today(), random.randint(1,15), fake.ascii_free_email())
-        
-    #loop to insert records into testing center info table
-    for _ in range(15):
-        insert_into_testing_center_info(fake.company(), fake.street_address(), fake.city(), 'TX', fake.postalcode_in_state('TX'))
-
-    #functionality to generate random orders
-    customer = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
-    certification = cursor.execute("SELECT * FROM CERTIFICATION_INFO").fetchall()
-    for _ in range(15):
-        ids = customer[random.randint(0,len(customer)-1)][0]
-        cert = certification[random.randint(0,len(certification)-1)]
-        cert_ids = cert[0]
-        cost = cert[3]
-
-        insert_into_cert_orders(ids, cert_ids, datetime.date.today(), cost)
-
-    #new functionality to generate random test taker records
-    data = cursor.execute("SELECT * FROM CERT_ORDERS").fetchall()
-    customer_data = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
-    for i in range(15):
-        customer_ids = data[i][1]
-        certification_id = data[i][2]
-
-        y = 0
-        while True:
-            if customer_data[y][0] == customer_ids:
-                testingcenter = customer_data[y][6]
-                break
-            else:
-                y += 1
-
-        if certification_id in [18, 19]:
-            actual_score = random.randint(0,100)
-        else:
-            actual_score = random.randint(400, 900)
-
-        if certification_id in [15, 16, 17, 18, 19]:
-            time_used = random.randint(20, 165)
-        else:
-            time_used = random.randint(20,90)
-
-        date_taken = datetime.date.today() + datetime.timedelta(days=7.0)
-
-        insert_into_test_taker_info(customer_ids, certification_id, testingcenter, actual_score, time_used, date_taken)
-
-    #functionality to generate appointments
-    orders_data = cursor.execute("SELECT * FROM CERT_ORDERS").fetchall()
-    customer_data = cursor.execute("SELECT * FROM CUSTOMER_INFO").fetchall()
-    for i in range(15):
-        customerid = orders_data[i][1]
-        certificationid = orders_data[i][2]
-
-        y = 0
-        while True:
-            if customer_data[y][0] == customerid:
-                testingcenter = customer_data[y][6]
-                break
-            else:
-                y += 1
-
-        app_date = datetime.date.today() + datetime.timedelta(days=7.0)
-
-        insert_into_appointments(customerid, testingcenter, certificationid, app_date)
-
-#options menu
 menu_print()
 
 #takes the user's choice from the menu options
@@ -302,7 +28,97 @@ action_choice = input("Please type the number infront of the action you would li
 
 leave = 'N'
 while leave != "Y":
+    #option 0 logic
+    if action_choice == '0':
+        prompt = input("You have selected to view records. Would you like to continue (Y/N)? ").upper()
+        if prompt == "Y":
+            
+        #list of tables available to view records of CUSTOMER_INFO
+            tables = "\
+                {:^24}  \n\n\
+            |1. {:^24} |\n\
+            |2. {:^24} |\n\
+            |3. {:^24} |\n\
+            |4. {:^24} |\n\
+            |5. {:^24} |\n\
+            |6. {:^24} |\n\
+            |7. {:^24} |\n"
 
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            
+            table_selection = input("Please enter the number of the table you would like to view to (e.g.: 1 - 7): ")
+            print()
+            if table_selection == "1":
+                print("Displaying CUSTOMER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CUSTOMER_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            if table_selection == "2":
+                print("Displaying TESTING_CENTER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM TESTING_CENTER_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
+            if table_selection == "3":
+                print("Displaying CERT_ORDERS Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CERT_ORDERS")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
+            if table_selection == "4":
+                print("Displaying TEST_TAKER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM TTEST_TAKER_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            if table_selection == "5":
+                print("Displaying CERTIFICATION_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CERTIFICATION_INFO")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            if table_selection == "6":
+                print("Displaying JOB_INFO_OPPORTUNITIES Table Records:")
+                print()
+                cursor.execute("SELECT * FROM JOB_INFO_OPPORTUNITIES")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
+            if table_selection == "7":
+                print("Displaying APPOINTMENT Table Records:")
+                print()
+                cursor.execute("SELECT * FROM APPOINTMENTS")
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    print(x, '\n')
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+            
     #option 1 logic
     if action_choice == '1':
         prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
@@ -321,7 +137,7 @@ while leave != "Y":
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
 
-            table_selection = input("Please enter the number of the table you would like to add a record to (e.g.: 1-7): ")
+            table_selection = input("Please enter the number of the table you would like to add a record to (e.g.: 1 - 7): ")
 
             #if the user decides to add to customer_info table
             if table_selection == "1":
@@ -332,7 +148,7 @@ while leave != "Y":
                 entered_city = input("Please input the customer's city (e.g: Houston): ")
                 entered_state = input("Please input the customer's state abbreviation (e.g: TX): ").upper()
                 entered_date = datetime.date.today()
-                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (Pick from 1-15): ")
+                entered_TC_ID = input("Please enter the customer's preferred Testing Center ID (Pick from 1 - 15): ")
                 entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
 
                 #use the same function created at the beginning to insert into the customer_info table 
@@ -345,11 +161,12 @@ while leave != "Y":
             #if the user decides to add to the testing_center_info table
             if table_selection == "2":
                 ##all the fields that need to be populated to create a record in the testing_center_info table
-                entered_tc_name = input("Please input the name of the testing center:")
-                entered_tc_street = input("Please input the testing center's street address:")
-                entered_tc_city = input("Please input the testing center's city:")
-                entered_tc_state = input("Please input the testing center's state abbreviation(TX):").upper()
-                entered_tc_zip = input("Please input the testing centere's zip code(5 digit):")
+                entered_tc_name = input("Please input the name of the testing center (e.g.: Webster TC): ")
+                entered_tc_street = input("Please input the testing center's street address (e.g: 1234 Main Street): ")
+                entered_city = input("Please input the customer's city (e.g: Houston): ")
+                entered_tc_city = input("Please input the testing center's city (e.g: Houston): ")
+                entered_tc_state = input("Please input the testing center's state abbreviation (e.g.: TX): ").upper()
+                entered_tc_zip = input("Please input the testing centere's zip code (5 digit from e.g.: 77509): ")
                 entered_tc_hours = "M - F, 9AM - 5PM"
                 entered_email = input("Please input the customer's email address (e.g.: BobSmith@gmail.com): ")
                 
@@ -359,11 +176,12 @@ while leave != "Y":
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
-                pass
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
 
             #if the user decides to add to the cert_orders table
             if table_selection == "3":
-                #all the fields that need to be populated to creat a record in the cert_orders table
+                #all the fields that need to be populated to create a record in the cert_orders table
                 entered_cust_ID = input("Please enter the customer ID of the customer making the order: ")
                 entered_cert_ID = input("Please enter the cert ID for the certification being ordered: ")
                 entered_order_date = datetime.date.today()
@@ -373,13 +191,48 @@ while leave != "Y":
                 #commit statement so the db i supdated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
-
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            #if a user decides to add to the test_taker_info table
             if table_selection == "4":
-                pass
+                entered_exam_id = input("Please enter the exam id you'd like to add: ")
+                entered_cust_id = input("Please enter the customer ID of the customer making the order: ")
+                entered_cert_id = input("Please enter the cert ID for the certification being ordered: ")
+                entered_tc_id = input("Please enter the name of the testing center ID you'd like to add: ")
+                entered_actual_score = input("Please enter the value of the actual score you'd like to add: ")
+                entered_time_used = input("Please enter the amount of time spent on this exam: ")
+                entered_date_taken = input("Please enter the date in which you'd like to add: ")
+                insert_into_test_taker_info(entered_exam_id, entered_cust_id, entered_cert_id, entered_tc_id, entered_actual_score, entered_time_used, entered_date_taken)
+                cursor.connection.commit()
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            #if a user decides to add to the certification_info table
             if table_selection == "5":
-                pass
+                entered_cert_id = input("Please enter the cert ID for the certification being ordered: ")
+                entered_cert_name = input("Please enter the name of the certificaiton you'd like to add: ")
+                entered_exam_code = input("Please enter the exam code you'd like to add: ")
+                entered_price = input("Please enter the price of the exam you'd like to add: ")
+                entered_test_duration = input("Please enter the duration of the exam you'd like to add: ")
+                entered_passing_score = input("Please enter the passing score of the exam you'd like to add: ")
+                entered_number_of_questions = input("Please enter the value of the number of questions your exam has: ")
+                insert_into_certification_info = (entered_cert_id, entered_cert_name, entered_exam_code, entered_price, entered_test_duration, entered_passing_score, entered_number_of_questions)
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+                
+            #if the user decides to add to the job_info_opportunities table
             if table_selection == "6":
-                pass
+                entered_job_id = input("Please enter the job ID relevant to the certification: ")
+                entered_job_title = input("Please enter the job title relevant to the certification: ")
+                entered_salary = input("Please enter the salary the individual may earn: ")
+                entered_cert_id = input("Please enter the cert ID for the associated certification: ")
+                insert_into_job_opportunities_table(entered_job_id, entered_job_title, entered_salary, entered_cert_id)
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
             #if the user decides to add to the appointments table
             if table_selection == "7":
                 #all the fields that need to be populated to create a record in the appointments table
@@ -393,8 +246,8 @@ while leave != "Y":
                 cursor.connection.commit()
                 print("Returning to main menu...")
                 
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")      
@@ -405,14 +258,14 @@ while leave != "Y":
         if prompt == "Y":
             #list of the tables available to modify a record in
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n\
+        |4. {:^24} |\n\
+        |5. {:^24} |\n\
+        |6. {:^24} |\n\
+        |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -476,11 +329,11 @@ while leave != "Y":
                 #any portion of the record
                 #if you only need to update a certain field then just enter the same information 
                 #already in the db for fields that don't need to be updated
-                order_id = input("Please input the ID number of the order you want to update:")
-                customer_id = input("Please input the ID number of the customer who made the order:")
-                cert_id = input("Please input the ID number of the cert being ordered:")
-                order_date = input("Please input the date of the order using the YYYY-MM-DD format:")
-                order_cost = input("Please input the ordercost according to the cert ordered:")
+                order_id = input("Please input the ID number of the order you want to update: ")
+                customer_id = input("Please input the ID number of the customer who made the order: ")
+                cert_id = input("Please input the ID number of the cert being ordered: ")
+                order_date = input("Please input the date of the order using the YYYY-MM-DD format: ")
+                order_cost = input("Please input the ordercost according to the cert ordered: ")
                 user_input = (customer_id, cert_id, order_date, order_cost, order_id)
                 #executes the sql query using the users inputs
                 cursor.execute(cert_orders_sql_update, user_input)
@@ -525,14 +378,14 @@ while leave != "Y":
         if prompt == "Y":
             #list of the tables available to delete a record from
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n\
+        |4. {:^24} |\n\
+        |5. {:^24} |\n\
+        |6. {:^24} |\n\
+        |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -596,14 +449,14 @@ while leave != "Y":
         prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             tables = "\
-        {:^24}  \n\n\
-    |1. {:^24} |\n\
-    |2. {:^24} |\n\
-    |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n\
+        |4. {:^24} |\n\
+        |5. {:^24} |\n\
+        |6. {:^24} |\n\
+        |7. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
              'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
@@ -792,11 +645,11 @@ while leave != "Y":
         else:
             menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
-
-    else:
-        print ("Selection invalid. Please enter an appropriate selection...")
-        menu_print()
-        action_choice = input("Please choose an option on the list: ")
+    #This code below introduces a bug 
+    #else:
+        #print ("Selection invalid. Please enter an appropriate selection...")
+        #menu_print()
+        #action_choice = input("Please choose an option on the list: ")
         
 
 

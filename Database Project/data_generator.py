@@ -1,6 +1,13 @@
 import faker, sqlite3, os, datetime, random
 import faker.providers.address.en_US
 
+def insert_into_certification_info(cert_id, cert_name, exam_code, price, test_duration, passing_score, num_of_questions):
+    cursor.execute("\
+        INSERT INTO CERTIFICATION_INFO (cert_id, cert_name, exam_code, price, test_duration, passing_score, num_of_questions)\
+        VALUES (?, ?, ?, ?, ?, ?, ?)", (cert_id, cert_name, exam_code, price, test_duration, passing_score, num_of_questions))
+     
+    print("Record inserted into Certification_Info...")
+     
 #inserts new records into customer info table
 def insert_into_customer_info(name, street, city, state, signup_date, tc_id, email):
     cursor.execute("\
@@ -41,6 +48,13 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
 
     print("Record inserted into Cert_Orders...")
 
+def insert_into_job_opportunities_table(job_id, job_title, salary, cert_id):
+    cursor.execute("\
+        INSERT INTO JOB_INFO_OPPORTUNITIES (job_id, job_title, salary, cert_id)\
+            VALUES (?, ?, ?, ?)", (job_id, job_title, salary, cert_id))
+    
+    print("Record inserted into Job_Info_Opportunities...")
+    
 #faker obj, db name, and db validation
 fake = faker.Faker('en_US')
 db_name = "C^2.db"
