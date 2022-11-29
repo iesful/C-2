@@ -309,10 +309,10 @@ while leave != "Y":
         if prompt == "Y":
         #list of tables available to add a record too
             tables = "\
-                {:^24}  \n\n\
-            |1. {:^24} |\n\
-            |2. {:^24} |\n\
-            |3. {:^24} |\n"
+            {:^24}  \n\n\
+        |1. {:^24} |\n\
+        |2. {:^24} |\n\
+        |3. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','CERT_ORDERS','APPOINTMENTS'))
 
@@ -379,13 +379,10 @@ while leave != "Y":
     |1. {:^24} |\n\
     |2. {:^24} |\n\
     |3. {:^24} |\n\
-    |4. {:^24} |\n\
-    |5. {:^24} |\n\
-    |6. {:^24} |\n\
-    |7. {:^24} |\n"
+    |4. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
-             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+             'CERT_ORDERS','APPOINTMENTS' ))
             table_selection = input("Please enter the number of the table containing the record you want to modify:")
             #if the user decides to modify a record in the customer_info table
             if table_selection == "1":
@@ -405,7 +402,6 @@ while leave != "Y":
                 date = input("Please input the date of the customer's account creation using the YYYY-MM-DD format: ")
                 new_TC_ID = input("Please enter the customer's preferred Testing Center ID (1-15): ")
                 email = input("Please input the customer's email address: ")
-                
                 
                 user_input = (name, street, city, state, date, new_TC_ID, email, cust_ID)
                 #executes the sql query using the users inputs
@@ -459,12 +455,6 @@ while leave != "Y":
                 print("Order updated successfully")
 
             if table_selection == "4":
-                pass
-            if table_selection == "5":
-                pass
-            if table_selection == "6":
-                pass
-            if table_selection == "7":
                 #sql update query for the appointments table
                 app_sql_update = "UPDATE APPOINTMENTS\
                     SET CUSTOMER_ID = ?, TC_ID = ?, CERT_ID=?, APP_DATE = ?\
