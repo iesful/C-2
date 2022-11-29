@@ -346,7 +346,7 @@ while leave != "Y":
                 entered_order_cost = input("Please enter the cost of the cert being ordered:")
                 #use the function to inser tinto the cert_orders table
                 insert_into_cert_orders(entered_cust_ID, entered_cert_ID, entered_order_date, entered_order_cost)
-                #commit statement so the db i supdated as soon as you finish entering the data
+                #commit statement so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
 
