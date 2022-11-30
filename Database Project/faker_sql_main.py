@@ -842,6 +842,6 @@ while leave != "Y":
 
 
 
-#commits statements and closes connection
+#commits statements and closes connection to the database
 cursor.connection.commit()
 cursor.close()
