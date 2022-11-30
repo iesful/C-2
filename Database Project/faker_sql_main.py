@@ -1,6 +1,7 @@
 # note: you MUST have installed the faker module and sqlite3 
 # through pip for these imports to work on your own machine 
 import faker, sqlite3, os, datetime, random
+from prettytable import PrettyTable
 import faker.providers.address.en_US
 
 #inserts new records into customer info table
@@ -302,7 +303,111 @@ action_choice = input("Please type the number infront of the action you would li
 
 leave = 'N'
 while leave != "Y":
+    #if the user decides to view all records of a table
+    if action_choice == "0":
+        prompt = input("You have selected to view records. Would you like to continue (Y/N)? ").upper()
+        if prompt == "Y":
+            
+        #list of tables available to view records of CUSTOMER_INFO
+            tables = "\
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n\
+    |4. {:^24} |\n\
+    |5. {:^24} |\n\
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
 
+            print(tables.format('Tables', 'CUSTOMER_INFO','TESTING_CENTER_INFO',
+             'CERT_ORDERS','TEST_TAKER_INFO', 'CERTIFICATION_INFO', 'JOB_INFO_OPPORTUNITIES','APPOINTMENTS' ))
+            
+            table_selection = input("Please enter the number of the table you would like to view to (e.g.: 1 - 7): ")
+            print()
+            if table_selection == "1":
+                print("Displaying CUSTOMER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CUSTOMER_INFO")
+                myTable = PrettyTable(["CUSTOMER_ID", "NAME", "STREET", "CITY", "STATE", "SIGNUP_DATE", "TC_ID", "EMAIL"])
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+                
+            if table_selection == "2":
+                print("Displaying TESTING_CENTER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM TESTING_CENTER_INFO")
+                myTable = PrettyTable(['TC_ID', 'TC_NAME', 'STREET', 'CITY', 'STATE', 'ZIP', 'HOURS'])
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+            
+            if table_selection == "3":
+                print("Displaying CERT_ORDERS Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CERT_ORDERS")
+                myTable = PrettyTable(['ORDER_ID', 'CUSTOMER_ID', 'CERT_ID', 'ORDER_DATE', 'ORDER_COST'])
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+            
+            if table_selection == "4":
+                print("Displaying TEST_TAKER_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM TEST_TAKER_INFO")
+                myTable = PrettyTable(['EXAM_ID', 'CUSTOMER_ID', 'CERT_ID', 'TC_ID', 'ACTUAL_SCORE', 'TIME_USED', 'DATE_TAKEN'])
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+                
+            if table_selection == "5":
+                print("Displaying CERTIFICATION_INFO Table Records:")
+                print()
+                cursor.execute("SELECT * FROM CERTIFICATION_INFO")
+                myresult = cursor.fetchall()
+                myTable = PrettyTable(['CERT_ID', 'CERT_NAME', 'EXAM_CODE', 'PRICE', 'TEST_DURATION', 'PASSING_SCORE', 'RENEWABLE', 'NUM_OF_QUESTIONS'])
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+                
+            if table_selection == "6":
+                print("Displaying JOB_INFO_OPPORTUNITIES Table Records:")
+                print()
+                cursor.execute("SELECT * FROM JOB_INFO_OPPORTUNITIES")
+                myresult = cursor.fetchall()
+                myTable = PrettyTable(["JOB_ID", "JOB_TITLE", "SALARY", "CERT_ID"])
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+            
+            if table_selection == "7":
+                print("Displaying APPOINTMENTS Table Records:")
+                print()
+                cursor.execute("SELECT * FROM APPOINTMENTS")
+                myTable = PrettyTable(['APP_ID', 'CUSTOMER_ID', 'TC_ID', 'CERT_ID', 'APP_DATE'])
+                myresult = cursor.fetchall()
+                for x in myresult:
+                    myTable.add_row(x)
+                print(myTable)
+                menu_print()
+                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+            
     #option 1 logic
     if action_choice == '1':
         prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
@@ -706,6 +811,12 @@ while leave != "Y":
                         action_choice = input("Please type the number infront of the action you would like to take: ")
                     else:
                         report_choice = input("Please select a report to generate: ")
+                else:
+                    print(report_menu.format('Report Menu', 'Most Expensive Certifications', 'Quickest Examinee', 'Number of Upcoming Appointments',
+                    'List of all Certifications', 'Highest Scoring Examinee', 'Favorite Testing Center', 'Top 3 Most Expensive Orders',
+                    'Most Positive Testing Date', 'List of all Jobs', 'Highest Paying Job', 'Return to Main Menu'))
+                    report_choice = input("Selection invalid. Please chose an option from the list:")
+
         
         else:
             menu_print()
@@ -723,10 +834,9 @@ while leave != "Y":
             menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
     #for an valid choice
-    if not action_choice == "1" or action_choice == "2" or action_choice == "3" or action_choice == "4" or action_choice == "5" or action_choice == "6":
-        print ("Selection invalid. Please enter an appropriate selection...")
+    if not action_choice == "0" or action_choice == "1" or action_choice == "2" or action_choice == "3" or action_choice == "4" or action_choice == "5" or action_choice == "6":
         menu_print()
-        action_choice = input("Please choose an option on the list: ")
+        action_choice = input("Selection invalid. Please choose an option on the list: ")
         
 
 
