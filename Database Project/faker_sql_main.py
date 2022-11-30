@@ -48,6 +48,7 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
 def menu_print():
     menu = "\n\
         {:^24}  \n\n\
+    |0. {:^24} |\n\
     |1. {:^24} |\n\
     |2. {:^24} |\n\
     |3. {:^24} |\n\
@@ -55,7 +56,7 @@ def menu_print():
     |5. {:^24} |\n\
     |6. {:^24} |\n"
 
-    print(menu.format('C^2 Database Menu', 'Add a new record', 'Modify a record',
+    print(menu.format('C^2 Database Menu','View records', 'Add a new record', 'Modify a record',
     'Delete a record', 'Search for a record', 'View reports', 'Quit'))
 
 #faker obj, db name, and db validation
