@@ -790,13 +790,72 @@ while leave != "Y":
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '4':
-                    pass
+                    print()
+                    cursor.execute('''
+                    SELECT 
+                    TEST_TAKER_INFO.CUSTOMER_ID,
+                    COUNT(TEST_TAKER_INFO.CERT_ID) AS value_occurrence,
+                    TEST_TAKER_INFO.CERT_ID,
+                    CERTIFICATION_INFO.CERT_NAME
+                    FROM TEST_TAKER_INFO
+                    LEFT JOIN CERTIFICATION_INFO ON TEST_TAKER_INFO.CERT_ID = CERTIFICATION_INFO.CERT_ID
+                    ORDER BY value_occurrence DESC
+                    LIMIT 1;
+                     ''')
+                    output = cursor.fetchall()
+                    print()
+                    for items in output:
+                        print(f"{items[3]} Is the most popular certification among test takers. Its Certification ID is: {items[3]}.\n This could indicate that this is an In-demand Certification worth obtaining.")
+                    print()
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
+                    
 
                 if report_choice == '5':
-                    pass
+                    print()
+                    cursor.execute('''
+                    SELECT 
+                    TEST_TAKER_INFO.DATE_TAKEN,
+                    TEST_TAKER_INFO.ACTUAL_SCORE,  
+                    TEST_TAKER_INFO.CUSTOMER_ID, 
+                    CERTIFICATION_INFO.CERT_ID, 
+                    CERTIFICATION_INFO.CERT_NAME, 
+                    CUSTOMER_INFO.NAME 
+                    FROM TEST_TAKER_INFO
+                    LEFT JOIN CUSTOMER_INFO ON TEST_TAKER_INFO.CUSTOMER_ID = CUSTOMER_INFO.CUSTOMER_ID,
+                    LEFT JOIN CERTIFICATION_INFO ON TEST_TAKER_INFO.CERT_ID = CERTIFICATION_INFO.CERT_ID
+                    WHERE TEST_TAKER_INFO.ACTUAL_SCORE = (SELECT MAX(TEST_TAKER_INFO.ACTUAL_SCORE) FROM TEST_TAKER_INFO);
+                    ''')
+                    
+                    output = cursor.fetchall()
+                    print()
+                    for items in output:
+                        print(f"{items[-1]} managed to achieve the highest score of all examinees with a whooping {items[-5]} out of 900 possible points!\nThey achieved this on the {items[-2]} Exam on {items[-6]}. Congratualations {items[-1]}. \n This may gives us insight as to which CompTIA exam may be easier to pass amongst others.")
+                    print()
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '6':
-                    pass
+                    cursor.execute('''
+                    SELECT 
+                    COUNT(TEST_TAKER_INFO.TC_ID) AS value_occurrence,
+                    TEST_TAKER_INFO.TC_ID,
+                    TESTING_CENTER_INFO.TC_NAME
+                    FROM TEST_TAKER_INFO 
+                    LEFT JOIN TESTING_CENTER_INFO ON TEST_TAKER_INFO.TC_ID = TESTING_CENTER_INFO.TC_ID
+                    ORDER BY value_occurrence ASC
+                    LIMIT 1;
+                     ''')
+                    output = cursor.fetchall()
+                    print()
+                    for items in output:
+                        print(f"The most favorated Testing Center among examinees is The {items[2]} Testing Center.\n Its Testing Center ID is: {items[1]}.\nThis may indicate that this Testing Center is well liked amongst examinees.")
+                    print()
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '7':
                     pass
