@@ -48,13 +48,13 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
 def menu_print():
     menu = "\n\
         {:^24}  \n\n\
-    |0. {:^24} |\n\
     |1. {:^24} |\n\
     |2. {:^24} |\n\
     |3. {:^24} |\n\
     |4. {:^24} |\n\
     |5. {:^24} |\n\
-    |6. {:^24} |\n"
+    |6. {:^24} |\n\
+    |7. {:^24} |\n"
 
     print(menu.format('C^2 Database Menu','View records', 'Add a new record', 'Modify a record',
     'Delete a record', 'Search for a record', 'View reports', 'Quit'))
@@ -297,7 +297,7 @@ else:
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #options menu
-acceptable_choices = ['0','1','2','3','4','5','6']
+acceptable_choices = ['1','2','3','4','5','6', '7']
 menu_print()
 #takes the user's choice from the menu options
 action_choice = input("Please type the number infront of the action you would like to take: ")
@@ -305,7 +305,7 @@ action_choice = input("Please type the number infront of the action you would li
 leave = 'N'
 while leave != "Y":
     #if the user decides to view all records of a table
-    if action_choice == "0":
+    if action_choice == "1":
         acceptable_view_choices = ['1', '2', '3', '4', '5', '6', '7']
         prompt = input("You have selected to view records. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
@@ -416,7 +416,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")      
 
     #option 1 logic
-    if action_choice == '1':
+    if action_choice == '2':
         acceptable_add_choices = ['1', '2', '3']
         prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
@@ -488,7 +488,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")      
 
     #option 2 logic
-    if action_choice == '2':
+    if action_choice == '3':
         acceptable_modify_choices = ['1', '2', '3', '4']
         prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
@@ -605,7 +605,7 @@ while leave != "Y":
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
     #option 3 logic
-    if action_choice == '3':
+    if action_choice == '4':
         acceptable_delete_choices = ['1', '2', '3']
         prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
@@ -661,7 +661,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
     #option 4 logic
-    if action_choice == '4':
+    if action_choice == '5':
         acceptable_search_choices = ['1','2', '3', '4']
         prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
@@ -743,7 +743,7 @@ while leave != "Y":
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
     #option 5 logic
-    if action_choice == '5':
+    if action_choice == '6':
         acceptable_report_choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11']
         prompt = input("You have selected to view reports. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
@@ -1003,7 +1003,7 @@ while leave != "Y":
 
 
     #option 6 logic
-    if action_choice == '6':
+    if action_choice == '7':
         prompt = input("You have selected to exit the program. Would you like to continue (Y/N)?").upper()
         if prompt == "Y":
             leave = prompt
