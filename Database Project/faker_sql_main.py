@@ -45,7 +45,7 @@ def insert_into_cert_orders(customer_id, cert_id, order_date, order_cost):
 
 #prints options menu
 def menu_print():
-    menu = "\
+    menu = "\n\
         {:^24}  \n\n\
     |1. {:^24} |\n\
     |2. {:^24} |\n\
