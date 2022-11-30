@@ -297,8 +297,8 @@ else:
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
 #options menu
+acceptable_choices = ['0','1','2','3','4','5','6']
 menu_print()
-
 #takes the user's choice from the menu options
 action_choice = input("Please type the number infront of the action you would like to take: ")
 
@@ -334,9 +334,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
-                
+                 
             if table_selection == "2":
                 print("Displaying TESTING_CENTER_INFO Table Records:")
                 print()
@@ -346,8 +344,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+                
             
             if table_selection == "3":
                 print("Displaying CERT_ORDERS Table Records:")
@@ -358,8 +355,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+               
             
             if table_selection == "4":
                 print("Displaying TEST_TAKER_INFO Table Records:")
@@ -370,8 +366,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+                
                 
             if table_selection == "5":
                 print("Displaying CERTIFICATION_INFO Table Records:")
@@ -382,8 +377,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
+                
                 
             if table_selection == "6":
                 print("Displaying JOB_INFO_OPPORTUNITIES Table Records:")
@@ -394,9 +388,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
-            
+                
             if table_selection == "7":
                 print("Displaying APPOINTMENTS Table Records:")
                 print()
@@ -406,11 +398,10 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                
+            if not table_selection == "1" or table_selection == "2" or table_selection == "3" or table_selection == "4" or table_selection == "5" or table_selection == "6" or table_selection == "7":
                 menu_print()
-                action_choice = int(input("Please type the number infront of the action you would like to take: "))
-            
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")      
@@ -719,6 +710,7 @@ while leave != "Y":
 
     #option 5 logic
     if action_choice == '5':
+        acceptable_report_choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11']
         prompt = input("You have selected to view reports. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             report_menu = "\n\
@@ -783,7 +775,7 @@ while leave != "Y":
                     data =cursor.execute(count_appointments).fetchall()
                     actual_count = data[0]
 
-                    print("\nThere are "+str(actual_count[0]) +" upcoming appointments.")
+                    print("\nThere are "+str(actual_count[0]) +" total upcoming appointments at our testing center locations.")
 
                     leave_report = 'Y'
                     menu_print()
@@ -815,25 +807,26 @@ while leave != "Y":
                     
 
                 if report_choice == '5':
+                    #report for the highest scoring examinee
+                    #made by joining the TEST_TAKER_INFO Table with the CUSTOMER_INFO & CERTIFICATION_IINFO TABLE
                     print()
                     cursor.execute('''
                     SELECT 
                     TEST_TAKER_INFO.DATE_TAKEN,
-                    TEST_TAKER_INFO.ACTUAL_SCORE,  
+                    TEST_TAKER_INFO.ACTUAL_SCORE,
                     TEST_TAKER_INFO.CUSTOMER_ID, 
                     CERTIFICATION_INFO.CERT_ID, 
                     CERTIFICATION_INFO.CERT_NAME, 
                     CUSTOMER_INFO.NAME 
                     FROM TEST_TAKER_INFO
-                    LEFT JOIN CUSTOMER_INFO ON TEST_TAKER_INFO.CUSTOMER_ID = CUSTOMER_INFO.CUSTOMER_ID,
+                    LEFT JOIN CUSTOMER_INFO ON TEST_TAKER_INFO.CUSTOMER_ID = CUSTOMER_INFO.CUSTOMER_ID
                     LEFT JOIN CERTIFICATION_INFO ON TEST_TAKER_INFO.CERT_ID = CERTIFICATION_INFO.CERT_ID
                     WHERE TEST_TAKER_INFO.ACTUAL_SCORE = (SELECT MAX(TEST_TAKER_INFO.ACTUAL_SCORE) FROM TEST_TAKER_INFO);
                     ''')
-                    
+
                     output = cursor.fetchall()
-                    print()
                     for items in output:
-                        print(f"{items[-1]} managed to achieve the highest score of all examinees with a whooping {items[-5]} out of 900 possible points!\nThey achieved this on the {items[-2]} Exam on {items[-6]}. Congratualations {items[-1]}. \n This may gives us insight as to which CompTIA exam may be easier to pass amongst others.")
+                        print(f"{items[-1]} managed to achieve the highest score of all examinees with a whooping {items[-5]} out of 900 possible points! He achieved this on the {items[-2]} Exam on {items[-6]}. Congratualations {items[-1]}. \nThis may gives us insight as to which CompTIA exam may be easier to pass amongst others.")
                     print()
                     leave_report = 'Y'
                     menu_print()
@@ -853,7 +846,7 @@ while leave != "Y":
                     output = cursor.fetchall()
                     print()
                     for items in output:
-                        print(f"The most favorated Testing Center among examinees is The {items[2]} Testing Center.\n Its Testing Center ID is: {items[1]}.\nThis may indicate that this Testing Center is well liked amongst examinees.")
+                        print(f"The most favorited Testing Center among examinees is The {items[2]} Testing Center.\n Its Testing Center ID is: {items[1]}.\nThis may indicate that this Testing Center is well liked amongst examinees.")
                     print()
                     leave_report = 'Y'
                     menu_print()
@@ -887,7 +880,36 @@ while leave != "Y":
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '8':
-                    pass
+                    cursor.execute('''
+                    SELECT
+                    TEST_TAKER_INFO.TIME_USED,
+                    TESTING_CENTER_INFO.TC_NAME
+                    FROM TEST_TAKER_INFO
+                    LEFT JOIN TESTING_CENTER_INFO ON TEST_TAKER_INFO.TC_ID = TESTING_CENTER_INFO.TC_ID;
+                     ''')
+                    print()
+                    output = cursor.fetchall()
+                    
+                    n=0
+                    listnum = []
+                    for x in output:
+                        
+                        listnum.append(int(x[0]))
+                    
+                    
+                    average = sum(listnum) / len(listnum)
+                    print(f"At testing centers such as {output[0][1]}, you can expect to spend an average of {average:.0f} minutes on an exam.")
+                    print("This data may correlate to how well these examinees perform on their exams.")
+                    print()
+                    print(f"The average time spent by an examinee is: {average} minutes")
+                    print("This can help make predications about how long one can expect to be in a Testing Center.")
+                    print()
+                    
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
+                    
+                   
 
                 if report_choice == '9':
                     cursor.execute('''
@@ -921,32 +943,30 @@ while leave != "Y":
                     print()
                     output = cursor.fetchall()
                     for x in output:
-                        print(f"Being a {x[0]} is the highest paying job with an average salary of ${x[1]}.\n A certification which may help obtain this job is the {x[2]} certification. ")
+                        print(f"Being a {x[0]} is the highest paying job our certifications can help you get with an average salary of ${x[1]}.\n A certification which may help obtain this job is the {x[2]} certification. ")
                     print()
                     leave_report = 'Y'
                     menu_print()
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '11':
-                    prompt = input("You have selected to exit the report menu. Would you like to continue (Y/N)? \n").upper()
+                    prompt = input("You have selected to exit the report menu. Would you like to continue (Y/N)? ").upper()
                     if prompt == 'Y':
                         leave_report = prompt
                         menu_print()
                         action_choice = input("Please type the number infront of the action you would like to take: ")
                     else:
                         report_choice = input("Please select a report to generate: ")
-                else:
+                if report_choice not in acceptable_report_choices:
                     print(report_menu.format('Report Menu', 'Most Expensive Certifications', 'Quickest Examinee', 'Number of Upcoming Appointments',
                     'List of all Certifications', 'Highest Scoring Examinee', 'Favorite Testing Center', 'Top 3 Most Expensive Orders',
                     'Most Positive Testing Date', 'List of all Jobs', 'Highest Paying Job', 'Return to Main Menu'))
-                    report_choice = input("Selection invalid. Please chose an option from the list:")
+                    report_choice = input("Selection invalid. Pleaese select an option listed:")
 
-        
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
 
-        
 
     #option 6 logic
     if action_choice == '6':
@@ -958,11 +978,10 @@ while leave != "Y":
             menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
     #for an valid choice
-    if not action_choice == "0" or action_choice == "1" or action_choice == "2" or action_choice == "3" or action_choice == "4" or action_choice == "5" or action_choice == "6":
+    if action_choice not in acceptable_choices:
+        print ("Selection invalid. Please enter an appropriate selection...")
         menu_print()
-        action_choice = input("Selection invalid. Please choose an option on the list: ")
-        
-
+        action_choice = input("Please type the number infront of the action you would like to take: ")
 
 
 #commits statements and closes connection to the database
