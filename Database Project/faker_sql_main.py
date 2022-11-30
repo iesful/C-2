@@ -306,6 +306,7 @@ leave = 'N'
 while leave != "Y":
     #if the user decides to view all records of a table
     if action_choice == "0":
+        acceptable_view_choices = ['1', '2', '3', '4', '5', '6', '7']
         prompt = input("You have selected to view records. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             
@@ -334,6 +335,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                table_selection = "a"
                  
             if table_selection == "2":
                 print("Displaying TESTING_CENTER_INFO Table Records:")
@@ -344,7 +346,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
-                
+                table_selection = "a"
             
             if table_selection == "3":
                 print("Displaying CERT_ORDERS Table Records:")
@@ -355,6 +357,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                table_selection = "a"
                
             
             if table_selection == "4":
@@ -366,6 +369,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                table_selection = "a"
                 
                 
             if table_selection == "5":
@@ -377,6 +381,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                table_selection = "a"
                 
                 
             if table_selection == "6":
@@ -388,6 +393,7 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                table_selection = "a"
                 
             if table_selection == "7":
                 print("Displaying APPOINTMENTS Table Records:")
@@ -398,16 +404,20 @@ while leave != "Y":
                 for x in myresult:
                     myTable.add_row(x)
                 print(myTable)
+                table_selection = "a"
                 
-            if not table_selection == "1" or table_selection == "2" or table_selection == "3" or table_selection == "4" or table_selection == "5" or table_selection == "6" or table_selection == "7":
+            if table_selection  not in acceptable_view_choices:
+                print("Returning to main menu...")
                 menu_print()
                 action_choice = input("Please type the number infront of the action you would like to take: ")
+
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")      
 
     #option 1 logic
     if action_choice == '1':
+        acceptable_add_choices = ['1', '2', '3']
         prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
         #list of tables available to add a record too
@@ -439,6 +449,7 @@ while leave != "Y":
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
+                table_selection = "a"
 
             #if the user decides to add to the cert_orders table
             if table_selection == "2":
@@ -452,6 +463,7 @@ while leave != "Y":
                 #commit statement so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
+                table_selection = "a"
 
             #if the user decides to add to the appointments table
             if table_selection == "3":
@@ -465,15 +477,19 @@ while leave != "Y":
                 #commit statemtent so the db is updated as soon as you finish entering the data
                 cursor.connection.commit()
                 print("Returning to main menu...")
-                
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                table_selection = "a"
+            if table_selection  not in acceptable_add_choices:
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
+
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")      
 
     #option 2 logic
     if action_choice == '2':
+        acceptable_modify_choices = ['1', '2', '3', '4']
         prompt = input("You have selected to modify a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             #list of the tables available to modify a record in
@@ -512,6 +528,7 @@ while leave != "Y":
                 #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
                 print("Customer updated successfully...")
+                table_selection = "a"
             #if the user decides to modify a record in the testing_center_info table
             if table_selection == "2":
                  #sql update query for the testing_center_info table
@@ -535,6 +552,7 @@ while leave != "Y":
                 #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
                 print("Testing Center updated successfully...")
+                table_selection = "a"
             #if the user decides to update a record in the cert_orders table
             if table_selection == "3":
                 #sql update query for the cert-orders table
@@ -556,6 +574,7 @@ while leave != "Y":
                 #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
                 print("Order updated successfully")
+                table_selection = "a"
 
             if table_selection == "4":
                 #sql update query for the appointments table
@@ -577,13 +596,17 @@ while leave != "Y":
                 #commit statment to update the db as soon as the user finishes updating the data
                 cursor.connection.commit()
                 print("Appointment updated successfully")
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                table_selection = "a"
+            if table_selection  not in acceptable_modify_choices:
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
         else:
             menu_print()
             action_choice = input("Please type the number infront of the action you would like to take: ")
     #option 3 logic
     if action_choice == '3':
+        acceptable_delete_choices = ['1', '2', '3']
         prompt = input("You have selected to delete a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             #list of the tables available to delete a record from
@@ -605,7 +628,7 @@ while leave != "Y":
                 #commit statement to update the db after the customer has been deleted
                 cursor.connection.commit()
                 print("Customer deleted successfully")
-            
+                table_selection = "a"
             #if the user decides to delete a record from the cert_orders table
             if table_selection == "2":
                 #sql delete query for cert_orders table
@@ -616,7 +639,7 @@ while leave != "Y":
                 #commit statement to update the db after the customer has been deleted
                 cursor.connection.commit()
                 print("Order deleted successfully")
-
+                table_selection = "a"
             #if the user decides to delete from the appointment table
             if table_selection == "3":
                 #sql delete query for appointment table
@@ -627,8 +650,11 @@ while leave != "Y":
                 #commit statement to update the db after the appointment has been deleted
                 cursor.connection.commit()
                 print("Appointment deleted successfully")
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                table_selection = "a"
+            if table_selection  not in acceptable_delete_choices:
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
 
         else:
             menu_print()
@@ -636,6 +662,7 @@ while leave != "Y":
 
     #option 4 logic
     if action_choice == '4':
+        acceptable_search_choices = ['1','2', '3', '4']
         prompt = input("You have selected to search for a record. Would you like to continue (Y/N)? ").upper()
         if prompt == "Y":
             tables = "\
@@ -662,6 +689,7 @@ while leave != "Y":
                     print("Customer Sign Up Date = ", field[5])
                     print("Customer Prefered Testing Center = ", field[6])
                     print("Customer Email = ", field[7], "\n")
+                table_selection = "a"
             #if the user searches for a record in the testing_center_info table
             if table_selection == "2":
                 TC_search_query = "SELECT * FROM TESTING_CENTER_INFO WHERE TC_ID = ?"
@@ -676,6 +704,7 @@ while leave != "Y":
                     print("Testing Center State = ", field[4])
                     print("Testing Center Zip = ", field[5])
                     print("Testing Center Hours of Operation = ", field[6], "\n")
+                table_selection = "a"
             #if the user searches for a record in the cert_orders table
             if table_selection == "3":
                 order_search_query = "SELECT * FROM CERT_ORDERS WHERE ORDER_ID = ?"
@@ -688,6 +717,8 @@ while leave != "Y":
                     print("Certification ID of Certification Ordered = ", field[2])
                     print("Order Date = ", field[3])
                     print("Order Cost = ", field[4], "\n")
+                table_selection = "a"
+
 
             #if the user wants to search the appointments table
             if table_selection == "4":
@@ -701,8 +732,11 @@ while leave != "Y":
                     print("Testing Center ID where appointment is scheduled = ", field[2])
                     print("Certification ID of the exam being taken = ", field[3])
                     print("Appointment Date = ", field[4], "\n")
-            menu_print()
-            action_choice = input("Please type the number infront of the action you would like to take: ")
+                table_selection = "a"
+            if table_selection  not in acceptable_search_choices:
+                print("Returning to main menu...")
+                menu_print()
+                action_choice = input("Please type the number infront of the action you would like to take: ")
 
         else:
             menu_print()
