@@ -1,5 +1,5 @@
 # note: you MUST have installed the faker module and sqlite3 
-# through pip for these imports to work on your own machine
+# through pip for these imports to work on your own machine 
 import faker, sqlite3, os, datetime, random
 import faker.providers.address.en_US
 
