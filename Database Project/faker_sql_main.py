@@ -409,6 +409,12 @@ while leave != "Y":
                 menu_print()
                 action_choice = int(input("Please type the number infront of the action you would like to take: "))
             
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")
+        else:
+            menu_print()
+            action_choice = input("Please type the number infront of the action you would like to take: ")      
+
     #option 1 logic
     if action_choice == '1':
         prompt = input("You have selected to add a new record. Would you like to continue (Y/N)? ").upper()
