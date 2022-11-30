@@ -309,10 +309,10 @@ while leave != "Y":
         if prompt == "Y":
         #list of tables available to add a record too
             tables = "\
-            {:^24}  \n\n\
-        |1. {:^24} |\n\
-        |2. {:^24} |\n\
-        |3. {:^24} |\n"
+        {:^24}  \n\n\
+    |1. {:^24} |\n\
+    |2. {:^24} |\n\
+    |3. {:^24} |\n"
 
             print(tables.format('Tables', 'CUSTOMER_INFO','CERT_ORDERS','APPOINTMENTS'))
 
@@ -722,8 +722,8 @@ while leave != "Y":
         else:
             menu_print
             action_choice = input("Please type the number infront of the action you would like to take: ")
-
-    else:
+    #for an valid choice
+    if not action_choice == "1" or action_choice == "2" or action_choice == "3" or action_choice == "4" or action_choice == "5" or action_choice == "6":
         print ("Selection invalid. Please enter an appropriate selection...")
         menu_print()
         action_choice = input("Please choose an option on the list: ")
