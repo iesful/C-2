@@ -735,8 +735,8 @@ while leave != "Y":
         |10.{:^32} |\n\
         |11.{:^32} |\n"
             print(report_menu.format('Report Menu', 'Most Expensive Certifications', 'Quickest Examinee', 'Number of Upcoming Appointments',
-            'List of all Certifications', 'Highest Scoring Examinee', 'Favorite Testing Center', 'Top 3 Most Expensive Orders',
-            'Most Positive Testing Date', 'List of all Jobs', 'Highest Paying Job', 'Return to Main Menu'))
+            'Most Popular Certification', 'Highest Scoring Examinee', 'Favorite Testing Center', 'Top 3 Most Expensive Orders',
+            'Average Testing Time', 'List of all Jobs', 'Highest Paying Job', 'Return to Main Menu'))
 
             report_choice = input("Please select a report to generate: ")
             leave_report = 'N'
@@ -790,13 +790,15 @@ while leave != "Y":
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '4':
+                    
                     print()
                     cursor.execute('''
                     SELECT 
                     TEST_TAKER_INFO.CUSTOMER_ID,
                     COUNT(TEST_TAKER_INFO.CERT_ID) AS value_occurrence,
                     TEST_TAKER_INFO.CERT_ID,
-                    CERTIFICATION_INFO.CERT_NAME
+                    CERTIFICATION_INFO.CERT_NAME,
+                    CERTIFICATION_INFO.EXAM_CODE
                     FROM TEST_TAKER_INFO
                     LEFT JOIN CERTIFICATION_INFO ON TEST_TAKER_INFO.CERT_ID = CERTIFICATION_INFO.CERT_ID
                     ORDER BY value_occurrence DESC
@@ -805,7 +807,7 @@ while leave != "Y":
                     output = cursor.fetchall()
                     print()
                     for items in output:
-                        print(f"{items[3]} Is the most popular certification among test takers. Its Certification ID is: {items[3]}.\n This could indicate that this is an In-demand Certification worth obtaining.")
+                        print(f"{items[3]} Is the most popular certification among test takers.\n Its Certification ID is: {items[2]}.\n Its Exam Code is: {items[4]}.\nThis could indicate that this is an In-demand Certification worth obtaining.")
                     print()
                     leave_report = 'Y'
                     menu_print()
@@ -836,8 +838,8 @@ while leave != "Y":
                     leave_report = 'Y'
                     menu_print()
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
-
                 if report_choice == '6':
+                    
                     cursor.execute('''
                     SELECT 
                     COUNT(TEST_TAKER_INFO.TC_ID) AS value_occurrence,
@@ -857,17 +859,73 @@ while leave != "Y":
                     menu_print()
                     action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
+
                 if report_choice == '7':
-                    pass
+                    cursor.execute('''
+                    SELECT
+                    CERT_ORDERS.ORDER_COST,
+                    CERT_ORDERS.CERT_ID,
+                    CUSTOMER_INFO.NAME,
+                    CERT_ORDERS.ORDER_DATE,
+                    CERTIFICATION_INFO.CERT_NAME
+                    FROM CERT_ORDERS 
+                    LEFT JOIN CUSTOMER_INFO ON CERT_ORDERS.CUSTOMER_ID = CUSTOMER_INFO.CUSTOMER_ID
+                    LEFT JOIN CERTIFICATION_INFO ON CERT_ORDERS.CERT_ID = CERTIFICATION_INFO.CERT_ID
+                    ORDER BY CERT_ORDERS.ORDER_COST DESC
+                    LIMIT 3;
+                     ''')
+                    print()
+                    output = cursor.fetchall()
+                    
+                    print(f"The First most expensive certification order was made by: {output[0][2]}.\n This was on {output[0][3]} for the {output[0][4]} exam with a total cost of: ${output[0][0]}\n")
+                    print(f"The Second most expensive certification order was made by: {output[1][2]}.\n This was on {output[1][3]} for the {output[1][4]} exam with a total cost of: ${output[1][0]}\n")
+                    print(f"The Third most expensive certification order was made by: {output[2][2]}.\n This was on {output[2][3]} for the {output[2][4]} exam with a total cost of: ${output[2][0]}\n")
+                    print("Could this data indicate a sale on this particular day?")
+                    print()
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '8':
                     pass
 
                 if report_choice == '9':
-                    pass
+                    cursor.execute('''
+                    SELECT 
+                    JOB_INFO_OPPORTUNITIES.JOB_TITLE,
+                    JOB_INFO_OPPORTUNITIES.JOB_ID
+                    FROM JOB_INFO_OPPORTUNITIES;
+                     ''')
+                    print()
+                    output = cursor.fetchall()
+                    print(f"The list below displays prospective jobs you can look forward to with a CompTIA Certfication: ")
+                    print()
+                    for x in output:
+                        print(f"{x[1]}. {x[0]} \n")
+                    print()
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '10':
-                    pass
+                    cursor.execute('''
+                    SELECT
+                    JOB_INFO_OPPORTUNITIES.JOB_TITLE,
+                    JOB_INFO_OPPORTUNITIES.SALARY,
+                    CERTIFICATION_INFO.CERT_NAME
+                    FROM JOB_INFO_OPPORTUNITIES
+                    LEFT JOIN CERTIFICATION_INFO ON JOB_INFO_OPPORTUNITIES.CERT_ID = CERTIFICATION_INFO.CERT_ID
+                    WHERE JOB_INFO_OPPORTUNITIES.SALARY = (SELECT MAX(JOB_INFO_OPPORTUNITIES.SALARY) FROM JOB_INFO_OPPORTUNITIES)
+                    LIMIT 1;
+                     ''')
+                    print()
+                    output = cursor.fetchall()
+                    for x in output:
+                        print(f"Being a {x[0]} is the highest paying job with an average salary of ${x[1]}.\n A certification which may help obtain this job is the {x[2]} certification. ")
+                    print()
+                    leave_report = 'Y'
+                    menu_print()
+                    action_choice = input("\nReturning to main menu\nPlease type the number infront of the action you would like to take: ")
 
                 if report_choice == '11':
                     prompt = input("You have selected to exit the report menu. Would you like to continue (Y/N)? \n").upper()
