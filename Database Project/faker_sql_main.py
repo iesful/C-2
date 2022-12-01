@@ -1,8 +1,9 @@
-# note: you MUST have installed the faker module and sqlite3 
-# through pip for these imports to work on your own machine 
+# note: you MUST have installed the faker module, pretytables,
+# and sqlite3 using pip for these imports to work on your own machine 
 import faker, sqlite3, os, datetime, random
-from prettytable import PrettyTable
 import faker.providers.address.en_US
+from prettytable import PrettyTable
+
 
 #inserts new records into customer info table
 def insert_into_customer_info(name, street, city, state, signup_date, tc_id, email):
