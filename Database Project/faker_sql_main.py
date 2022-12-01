@@ -296,6 +296,9 @@ else:
 
         insert_into_appointments(customerid, testingcenter, certificationid, app_date)
 
+    #commit the creation of the db
+    cursor.connection.commit()
+
 #options menu
 acceptable_choices = ['1','2','3','4','5','6', '7']
 menu_print()
