@@ -468,7 +468,7 @@ while leave != "Y":
             #if the user decides to add to the appointments table
             if table_selection == "3":
                 #all the fields that need to be populated to create a record in the appointments table
-                entered_cust_ID = input("Please input the ID number of the cusotmer the appointment is for: ")
+                entered_cust_ID = input("Please input the ID number of the customer the appointment is for: ")
                 entered_TC_ID= input("Please input ID number of the testing center the appointment is at: ")
                 entered_cert_ID = input("Please input the ID of the cert exam being taken: ")
                 entered_app_date = input("Please input the date the appointment is for in YYYY-MM-DD format: ")
