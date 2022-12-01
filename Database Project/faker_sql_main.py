@@ -517,7 +517,7 @@ while leave != "Y":
                 #if you only need to update a certain field then just enter the same information
                 # already in the db for fields that don't need to be updated
                 cust_ID = input("Please input the ID number of the customer you want to update: ")
-                name = input('Please input the name of the cusomer: ')
+                name = input('Please input the name of the customer: ')
                 street = input("Please enter the customer's street address: ")
                 city = input("Please input the customer's city: ")
                 state = input("Please input the customer's state abbreviation (TX): ").upper()
